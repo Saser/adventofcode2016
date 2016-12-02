@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 enum Direction {
     North,
     East,
@@ -6,15 +6,15 @@ enum Direction {
     West,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Turn {
     Right,
     Left,
 }
 
 impl Direction {
-    fn turn(&self, turn: Turn) -> Direction {
-        match turn {
+    fn turn(&self, turn: &Turn) -> Direction {
+        match *turn {
             Turn::Right => self.turn_right(),
             Turn::Left => self.turn_left(),
         }
@@ -41,6 +41,18 @@ impl Direction {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
+    fn many_turns(init_dir: &Direction, turns: &[Turn]) -> Direction {
+        turns.iter()
+            .fold(init_dir.clone(), |acc, turn| acc.turn(turn))
+    }
+
     #[test]
-    fn it_works() {}
+    fn turn_right_then_left() {
+        let dir = Direction::North;
+        let newdir = many_turns(&dir, &[Turn::Right, Turn::Left]);
+
+        assert_eq!(dir, newdir);
+    }
 }
