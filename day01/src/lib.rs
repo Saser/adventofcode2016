@@ -1,3 +1,4 @@
+#[derive(Debug)]
 enum Direction {
     North,
     East,
@@ -5,6 +6,7 @@ enum Direction {
     West,
 }
 
+#[derive(Debug)]
 enum Turn {
     Right,
     Left,
