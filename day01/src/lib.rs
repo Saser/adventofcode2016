@@ -1,4 +1,4 @@
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
 enum Direction {
     North,
     East,
@@ -6,7 +6,7 @@ enum Direction {
     West,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 enum Turn {
     Right,
     Left,
@@ -52,6 +52,22 @@ mod tests {
     fn turn_right_then_left() {
         let dir = Direction::North;
         let newdir = many_turns(&dir, &[Turn::Right, Turn::Left]);
+
+        assert_eq!(dir, newdir);
+    }
+
+    #[test]
+    fn turn_right_four_times() {
+        let dir = Direction::East;
+        let newdir = many_turns(&dir, &[Turn::Right; 4]);
+
+        assert_eq!(dir, newdir);
+    }
+
+    #[test]
+    fn turn_left_four_times() {
+        let dir = Direction::West;
+        let newdir = many_turns(&dir, &[Turn::Left; 4]);
 
         assert_eq!(dir, newdir);
     }
