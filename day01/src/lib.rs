@@ -53,6 +53,27 @@ impl Direction {
     }
 }
 
+#[derive(Debug, Eq, PartialEq)]
+struct Instruction {
+    turn: Turn,
+    steps: i32,
+}
+
+
+impl FromStr for Instruction {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (turn_str, steps_str) = s.split_at(1);
+        let turn = Turn::from_str(turn_str).unwrap();
+        let steps = i32::from_str(steps_str).unwrap();
+        Ok(Instruction {
+            turn: turn,
+            steps: steps,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -103,5 +124,22 @@ mod tests {
         assert_eq!(right, Turn::Right);
         assert_eq!(left, Turn::Left);
         assert!(invalid.is_err());
+    }
+
+    #[test]
+    fn instruction_fromstr() {
+        let i1 = Instruction::from_str("L14").unwrap();
+        assert_eq!(i1,
+                   Instruction {
+                       turn: Turn::Left,
+                       steps: 14,
+                   });
+
+        let i2 = Instruction::from_str("R14").unwrap();
+        assert_eq!(i2,
+                   Instruction {
+                       turn: Turn::Right,
+                       steps: 14,
+                   });
     }
 }
