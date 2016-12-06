@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
 enum Direction {
     North,
@@ -6,10 +8,22 @@ enum Direction {
     West,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
 enum Turn {
     Right,
     Left,
+}
+
+impl FromStr for Turn {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "R" => Ok(Turn::Right),
+            "L" => Ok(Turn::Left),
+            _ => Err("invalid turn".to_string()),
+        }
+    }
 }
 
 impl Direction {
@@ -78,5 +92,16 @@ mod tests {
         let newdir = many_turns(&dir, &[Turn::Left; 4]);
 
         assert_eq!(dir, newdir);
+    }
+
+    #[test]
+    fn turn_fromstr() {
+        let right = Turn::from_str("R").unwrap();
+        let left = Turn::from_str("L").unwrap();
+        let invalid = Turn::from_str("invalid");
+
+        assert_eq!(right, Turn::Right);
+        assert_eq!(left, Turn::Left);
+        assert!(invalid.is_err());
     }
 }
