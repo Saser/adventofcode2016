@@ -8,24 +8,6 @@ enum Direction {
     West,
 }
 
-#[derive(Debug, Eq, PartialEq, Clone, Copy)]
-enum Turn {
-    Right,
-    Left,
-}
-
-impl FromStr for Turn {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "R" => Ok(Turn::Right),
-            "L" => Ok(Turn::Left),
-            _ => Err("invalid turn".to_string()),
-        }
-    }
-}
-
 impl Direction {
     fn turn(&self, turn: &Turn) -> Direction {
         match *turn {
@@ -49,6 +31,24 @@ impl Direction {
             Direction::East => Direction::North,
             Direction::South => Direction::East,
             Direction::West => Direction::South,
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+enum Turn {
+    Right,
+    Left,
+}
+
+impl FromStr for Turn {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "R" => Ok(Turn::Right),
+            "L" => Ok(Turn::Left),
+            _ => Err("invalid turn".to_string()),
         }
     }
 }
