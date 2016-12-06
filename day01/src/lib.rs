@@ -57,6 +57,14 @@ mod tests {
     }
 
     #[test]
+    fn turn_left_then_right() {
+        let dir = Direction::North;
+        let newdir = many_turns(&dir, &[Turn::Left, Turn::Right]);
+
+        assert_eq!(dir, newdir);
+    }
+
+    #[test]
     fn turn_right_four_times() {
         let dir = Direction::East;
         let newdir = many_turns(&dir, &[Turn::Right; 4]);
