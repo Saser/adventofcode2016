@@ -1,4 +1,5 @@
 use std::str::FromStr;
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
 enum Direction {
@@ -73,6 +74,33 @@ impl FromStr for Instruction {
             turn: turn,
             distance: distance,
         })
+    }
+}
+
+struct Position {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Position {
+    type Output = Position;
+
+    fn add(self, other: Position) -> Position {
+        Position {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+impl Mul<i32> for Position {
+    type Output = Position;
+
+    fn mul(self, rhs: i32) -> Position {
+        Position {
+            x: self.x * rhs,
+            y: self.y * rhs,
+        }
     }
 }
 
