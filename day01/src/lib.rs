@@ -34,6 +34,15 @@ impl Direction {
             Direction::West => Direction::South,
         }
     }
+
+    fn to_position_representation(&self) -> Position {
+        match *self {
+            Direction::North => Position { x: 0, y: 1 },
+            Direction::East => Position { x: 1, y: 0 },
+            Direction::South => Position { x: 0, y: -1 },
+            Direction::West => Position { x: -1, y: 0 },
+        }
+    }
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
@@ -54,7 +63,7 @@ impl FromStr for Turn {
     }
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 struct Instruction {
     turn: Turn,
     distance: i32,
@@ -77,6 +86,7 @@ impl FromStr for Instruction {
     }
 }
 
+#[derive(Debug, Eq, PartialEq, Clone)]
 struct Position {
     x: i32,
     y: i32,
@@ -100,6 +110,29 @@ impl Mul<i32> for Position {
         Position {
             x: self.x * rhs,
             y: self.y * rhs,
+        }
+    }
+}
+
+struct Traveler {
+    position: Position,
+    direction: Direction,
+}
+
+impl Traveler {
+    fn start_values() -> Traveler {
+        Traveler {
+            position: Position { x: 0, y: 0 },
+            direction: Direction::North,
+        }
+    }
+
+    fn apply_instruction(&self, instruction: &Instruction) -> Traveler {
+        let new_dir = self.direction.turn(&instruction.turn);
+        let travel_vector = new_dir.to_position_representation() * instruction.distance;
+        Traveler {
+            position: self.position.clone() + travel_vector,
+            direction: new_dir,
         }
     }
 }
@@ -171,5 +204,16 @@ mod tests {
                        turn: Turn::Right,
                        distance: 14,
                    });
+    }
+
+    #[test]
+    fn test_apply_instruction() {
+        let traveler = Traveler::start_values();
+        let i1 = Instruction::from_str("R2").unwrap();
+        let i2 = Instruction::from_str("L3").unwrap();
+        let new_traveler = traveler.apply_instruction(&i1).apply_instruction(&i2);
+
+        assert_eq!(new_traveler.position, Position { x: 2, y: 3 });
+        assert_eq!(new_traveler.direction, Direction::North);
     }
 }
