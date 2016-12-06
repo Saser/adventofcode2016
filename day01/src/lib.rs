@@ -48,7 +48,7 @@ impl FromStr for Turn {
         match s {
             "R" => Ok(Turn::Right),
             "L" => Ok(Turn::Left),
-            _ => Err("invalid turn".to_string()),
+            _ => Err(format!("invalid turn: {}", s)),
         }
     }
 }
@@ -56,7 +56,7 @@ impl FromStr for Turn {
 #[derive(Debug, Eq, PartialEq)]
 struct Instruction {
     turn: Turn,
-    steps: i32,
+    distance: i32,
 }
 
 
@@ -64,12 +64,14 @@ impl FromStr for Instruction {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let (turn_str, steps_str) = s.split_at(1);
-        let turn = Turn::from_str(turn_str).unwrap();
-        let steps = i32::from_str(steps_str).unwrap();
+        let mut chars = s.chars();
+        let turn_char = chars.next().ok_or("invalid direction".to_owned())?;
+        let turn = Turn::from_str(&turn_char.to_string())?;
+        let distance_str = chars.as_str();
+        let distance = i32::from_str(distance_str).map_err(|_| "invalid distance")?;
         Ok(Instruction {
             turn: turn,
-            steps: steps,
+            distance: distance,
         })
     }
 }
@@ -132,14 +134,14 @@ mod tests {
         assert_eq!(i1,
                    Instruction {
                        turn: Turn::Left,
-                       steps: 14,
+                       distance: 14,
                    });
 
         let i2 = Instruction::from_str("R14").unwrap();
         assert_eq!(i2,
                    Instruction {
                        turn: Turn::Right,
-                       steps: 14,
+                       distance: 14,
                    });
     }
 }
