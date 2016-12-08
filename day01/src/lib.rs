@@ -114,6 +114,7 @@ impl Mul<i32> for Position {
     }
 }
 
+#[derive(Clone)]
 struct Traveler {
     position: Position,
     direction: Direction,
@@ -134,6 +135,12 @@ impl Traveler {
             position: self.position.clone() + travel_vector,
             direction: new_dir,
         }
+    }
+
+    fn apply_many_instructions(&self, instructions: &[Instruction]) -> Traveler {
+        instructions.iter()
+            .fold(self.clone(),
+                  |acc, instruction| acc.apply_instruction(instruction))
     }
 }
 
@@ -212,6 +219,18 @@ mod tests {
         let i1 = Instruction::from_str("R2").unwrap();
         let i2 = Instruction::from_str("L3").unwrap();
         let new_traveler = traveler.apply_instruction(&i1).apply_instruction(&i2);
+
+        assert_eq!(new_traveler.position, Position { x: 2, y: 3 });
+        assert_eq!(new_traveler.direction, Direction::North);
+    }
+
+    #[test]
+    fn test_apply_many_instructions() {
+        let traveler = Traveler::start_values();
+        let i1 = Instruction::from_str("R2").unwrap();
+        let i2 = Instruction::from_str("L3").unwrap();
+        let instructions = &[i1, i2];
+        let new_traveler = traveler.apply_many_instructions(instructions);
 
         assert_eq!(new_traveler.position, Position { x: 2, y: 3 });
         assert_eq!(new_traveler.direction, Direction::North);
