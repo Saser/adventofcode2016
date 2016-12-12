@@ -5,3 +5,7 @@ authors = ["Christian Persson <saser@live.se>"]
 
 [dependencies]
 clap = { version = "2.19.2", features = ["yaml"] }
+
+base = { path = "../base" }
+
+day01 = { path = "../day01" }
