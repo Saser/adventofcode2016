@@ -29,7 +29,11 @@ fn main() {
         Input::Literal(literal) => solver.solve(&literal, &part),
         Input::File(file_path) => solver.solve_file(&file_path, &part),
     };
-    println!("{}", solution);
+
+    match solution {
+        Ok(answer) => println!("The answer is: {}", answer),
+        Err(error) => println!("An error occurred: {}", error),
+    }
     println!("solved problem for day {}", day);
 }
 
