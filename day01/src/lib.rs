@@ -10,23 +10,30 @@ pub fn get_solver() -> Box<ProblemSolver> {
 
 pub struct Solver;
 
+impl Solver {
+    fn solve_part_one(input: &str) -> Result<String, String> {
+        let instructions = Instruction::parse_instructions(input)?;
+        let traveler = Traveler::start_values();
+        let final_traveler = traveler.apply_many_instructions(&instructions);
+        Ok(final_traveler.position.distance().to_string())
+    }
+}
+
 impl ProblemSolver for Solver {
-    fn solve(&self, input: &str, part: &base::Part) -> String {
-        format!("1.{} with input {}",
-                match *part {
-                    Part::One => "1",
-                    Part::Two => "2",
-                },
-                input)
+    fn solve(&self, input: &str, part: &base::Part) -> Result<String, String> {
+        match *part {
+            Part::One => Solver::solve_part_one(input),
+            Part::Two => Err("not implemented yet".to_owned()),
+        }
     }
 
-    fn solve_file(&self, file_path: &str, part: &base::Part) -> String {
-        format!("1.{} with file path {}",
-                match *part {
-                    Part::One => "1",
-                    Part::Two => "2",
-                },
-                file_path)
+    fn solve_file(&self, file_path: &str, part: &base::Part) -> Result<String, String> {
+        Err(format!("1.{} with file path {}",
+                    match *part {
+                        Part::One => "1",
+                        Part::Two => "2",
+                    },
+                    file_path))
     }
 }
 
@@ -128,6 +135,12 @@ impl FromStr for Instruction {
 struct Position {
     x: i32,
     y: i32,
+}
+
+impl Position {
+    fn distance(&self) -> u32 {
+        self.x.abs() as u32 + self.y.abs() as u32
+    }
 }
 
 impl Add for Position {
