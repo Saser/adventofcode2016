@@ -4,19 +4,29 @@ use base::{Part, ProblemSolver};
 use std::str::FromStr;
 use std::ops::{Add, Mul};
 
+pub fn get_solver() -> Box<ProblemSolver> {
+    Box::new(Solver)
+}
+
 pub struct Solver;
 
 impl ProblemSolver for Solver {
-    fn new() -> Solver {
-        Solver
+    fn solve(&self, input: &str, part: &base::Part) -> String {
+        format!("1.{} with input {}",
+                match *part {
+                    Part::One => "1",
+                    Part::Two => "2",
+                },
+                input)
     }
 
-    fn solve(&self, input: &str, part: base::Part) -> String {
-        "lol".to_owned()
-    }
-
-    fn solve_file(&self, file_path: &str, part: base::Part) -> String {
-        "lol".to_owned()
+    fn solve_file(&self, file_path: &str, part: &base::Part) -> String {
+        format!("1.{} with file path {}",
+                match *part {
+                    Part::One => "1",
+                    Part::Two => "2",
+                },
+                file_path)
     }
 }
 
