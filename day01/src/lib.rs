@@ -1,3 +1,5 @@
+#![feature(inclusive_range_syntax)]
+
 extern crate base;
 use base::{Part, ProblemSolver};
 
@@ -109,6 +111,10 @@ impl Instruction {
             .filter(|x| x.is_ok())
             .collect()
     }
+
+    fn normalize(&self) -> Instruction {
+        Instruction { distance: 1, ..*self }
+    }
 }
 
 
@@ -128,7 +134,7 @@ impl FromStr for Instruction {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, Hash)]
 struct Position {
     x: i32,
     y: i32,
@@ -189,6 +195,19 @@ impl Traveler {
         instructions.iter()
             .fold(self.clone(),
                   |acc, instruction| acc.apply_instruction(instruction))
+    }
+
+    fn path_from_instruction(&self, instruction: &Instruction) -> Vec<Position> {
+        let mut path = vec![];
+        let normalized_vector = self.direction
+            .turn(&instruction.turn)
+            .to_position_representation();
+        for d in 1...instruction.distance {
+            let travel_vector = normalized_vector.clone() * d;
+            let position = self.position.clone() + travel_vector;
+            path.push(position);
+        }
+        path
     }
 }
 
@@ -300,6 +319,17 @@ mod tests {
                        distance: 3,
                    });
     }
+
+    #[test]
+    fn path_from_instruction() {
+        let traveler = Traveler::start_values();
+        let instruction = Instruction::from_str("R5").unwrap();
+        let path = traveler.path_from_instruction(&instruction);
+        println!("{:?}", path);
+        for x in 1..5 {
+            assert!(path.contains(&Position { x: x, y: 0 }));
+        }
+    }
 }
 
 #[cfg(test)]
@@ -307,7 +337,7 @@ mod part1_tests {
     use super::*;
 
     fn get_answer(input: &str) -> u32 {
-        let answer_str = Solver::solve_part_one(input).unwrap();
+        let answer_str = solve_part_one(input).unwrap();
         u32::from_str(&answer_str).unwrap()
     }
 
