@@ -10,10 +10,10 @@ impl FromStr for Part {
     type Err = String;
 
     fn from_str(part_str: &str) -> Result<Self, Self::Err> {
-        match part_str.to_lowercase().as_str() {
-            "1" | "one" => Ok(Part::One),
-            "2" | "two" => Ok(Part::Two),
-            _ => Err("invalid part specification".to_owned()),
+        match part_str {
+            "1" => Ok(Part::One),
+            "2" => Ok(Part::Two),
+            _ => Err(format!("invalid part specification: {}", part_str)),
         }
     }
 }
