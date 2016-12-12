@@ -19,9 +19,9 @@ impl FromStr for Part {
 }
 
 pub trait ProblemSolver {
-    fn solve(&self, input: &str, part: Part) -> String;
+    fn solve(&self, input: &str, part: &Part) -> String;
 
-    fn solve_file(&self, file_path: &str, part: Part) -> String;
+    fn solve_file(&self, file_path: &str, part: &Part) -> String;
 }
 
 #[cfg(test)]
