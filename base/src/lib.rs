@@ -1,3 +1,5 @@
+pub mod utils;
+
 use std::str::FromStr;
 
 #[derive(Debug, Eq, PartialEq, Clone)]
