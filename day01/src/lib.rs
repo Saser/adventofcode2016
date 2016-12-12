@@ -1,5 +1,24 @@
+extern crate base;
+use base::{Part, ProblemSolver};
+
 use std::str::FromStr;
 use std::ops::{Add, Mul};
+
+struct Solver;
+
+impl ProblemSolver for Solver {
+    fn new() -> Solver {
+        Solver
+    }
+
+    fn solve(input: &str, part: base::Part) -> String {
+        "lol".to_owned()
+    }
+
+    fn solve_file(file_path: &str, part: base::Part) -> String {
+        "lol".to_owned()
+    }
+}
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy)]
 enum Direction {
