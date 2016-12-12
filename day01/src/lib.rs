@@ -4,18 +4,18 @@ use base::{Part, ProblemSolver};
 use std::str::FromStr;
 use std::ops::{Add, Mul};
 
-struct Solver;
+pub struct Solver;
 
 impl ProblemSolver for Solver {
     fn new() -> Solver {
         Solver
     }
 
-    fn solve(input: &str, part: base::Part) -> String {
+    fn solve(&self, input: &str, part: base::Part) -> String {
         "lol".to_owned()
     }
 
-    fn solve_file(file_path: &str, part: base::Part) -> String {
+    fn solve_file(&self, file_path: &str, part: base::Part) -> String {
         "lol".to_owned()
     }
 }
