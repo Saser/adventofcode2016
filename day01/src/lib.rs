@@ -304,3 +304,31 @@ mod tests {
                    });
     }
 }
+
+#[cfg(test)]
+mod part1_tests {
+    use super::*;
+
+    fn get_answer(input: &str) -> u32 {
+        let answer_str = Solver::solve_part_one(input).unwrap();
+        u32::from_str(&answer_str).unwrap()
+    }
+
+    #[test]
+    fn input_1() {
+        let answer = get_answer("L2, R3");
+        assert_eq!(answer, 5);
+    }
+
+    #[test]
+    fn input_2() {
+        let answer = get_answer("R2, R2, R2");
+        assert_eq!(answer, 2);
+    }
+
+    #[test]
+    fn input_3() {
+        let answer = get_answer("R5, L5, R5, R3");
+        assert_eq!(answer, 12);
+    }
+}
