@@ -69,6 +69,15 @@ struct Instruction {
     distance: i32,
 }
 
+impl Instruction {
+    fn parse_instructions(instructions_str: &str) -> Result<Vec<Instruction>, String> {
+        instructions_str.split(", ")
+            .map(Instruction::from_str)
+            .filter(|x| x.is_ok())
+            .collect()
+    }
+}
+
 
 impl FromStr for Instruction {
     type Err = String;
@@ -234,5 +243,22 @@ mod tests {
 
         assert_eq!(new_traveler.position, Position { x: 2, y: 3 });
         assert_eq!(new_traveler.direction, Direction::North);
+    }
+
+    #[test]
+    fn parse_instructions() {
+        let instructions_str = "R2, L3";
+        let instructions = Instruction::parse_instructions(instructions_str).unwrap();
+
+        assert_eq!(instructions[0],
+                   Instruction {
+                       turn: Turn::Right,
+                       distance: 2,
+                   });
+        assert_eq!(instructions[1],
+                   Instruction {
+                       turn: Turn::Left,
+                       distance: 3,
+                   });
     }
 }
