@@ -4,6 +4,8 @@ pub enum Part {
 }
 
 pub trait ProblemSolver {
+    fn new() -> Self;
+
     fn solve(input: &str) -> String;
 
     fn solve_file(file_path: &str) -> String;
