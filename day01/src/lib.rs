@@ -8,32 +8,29 @@ pub fn get_solver() -> Box<ProblemSolver> {
     Box::new(Solver)
 }
 
-pub struct Solver;
-
-impl Solver {
-    fn solve_part_one(input: &str) -> Result<String, String> {
-        let instructions = Instruction::parse_instructions(input)?;
-        let traveler = Traveler::start_values();
-        let final_traveler = traveler.apply_many_instructions(&instructions);
-        Ok(final_traveler.position.distance().to_string())
-    }
+fn solve_part_one(input: &str) -> Result<String, String> {
+    let instructions = Instruction::parse_instructions(input)?;
+    let traveler = Traveler::start_values();
+    let final_traveler = traveler.apply_many_instructions(&instructions);
+    Ok(final_traveler.position.distance().to_string())
 }
+
+pub struct Solver;
 
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: &base::Part) -> Result<String, String> {
         match *part {
-            Part::One => Solver::solve_part_one(input),
+            Part::One => solve_part_one(input),
             Part::Two => Err("not implemented yet".to_owned()),
         }
     }
 
     fn solve_file(&self, file_path: &str, part: &base::Part) -> Result<String, String> {
-        Err(format!("1.{} with file path {}",
-                    match *part {
-                        Part::One => "1",
-                        Part::Two => "2",
-                    },
-                    file_path))
+        let lines = base::utils::lines_from_file(file_path);
+        match *part {
+            Part::One => solve_part_one(&lines[0]),
+            Part::Two => Err("not implemented yet".to_owned()),
+        }
     }
 }
 
