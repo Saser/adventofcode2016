@@ -1,0 +1,26 @@
+name: "aoc"
+version: "0.1.0"
+author: "Christian Persson <saser@live.se>"
+about: "Runs solutions for Advent of Code 2016 problems"
+args:
+    - day:
+        short: "d"
+        long: "day"
+        required: true
+        takes_value: true
+        value_name: "DAY"
+        help: "Sets which day to use"
+    - part:
+        short: "p"
+        long: "part"
+        required: true
+        takes_value: true
+        value_name: "PART"
+        help: "Sets which part (1 or 2) to use"
+    - file:
+        short: "f"
+        long: "file"
+        required: true
+        takes_value: true
+        value_name: "FILE"
+        help: "File to read problem input from"
