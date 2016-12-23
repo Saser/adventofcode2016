@@ -7,6 +7,13 @@ use base::{Part, ProblemSolver};
 
 extern crate day01;
 
+macro_rules! err_println {
+    ( $( $arg : tt )* ) => {{
+        use std::io::Write;
+        let _ = writeln!(&mut ::std::io::stderr(), $($arg)*);
+    }}
+}
+
 enum Input {
     Literal(String),
     File(String),
@@ -32,9 +39,8 @@ fn main() {
 
     match solution {
         Ok(answer) => println!("The answer is: {}", answer),
-        Err(error) => println!("An error occurred: {}", error),
+        Err(error) => err_println!("An error occurred: {}", error),
     }
-    println!("solved problem for day {}", day);
 }
 
 fn get_solver(day: u32) -> Result<Box<ProblemSolver>, String> {
