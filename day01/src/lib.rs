@@ -32,3 +32,17 @@ fn solve_part_one(input: &str) -> Result<String, String> {
 fn solve_part_two(input: &str) -> Result<String, String> {
     Err("not implemented yet!".to_owned())
 }
+
+// Here starts the actual solution, lol
+
+#[derive(Debug, Eq, PartialEq)]
+enum Turn {
+    Left,
+    Right,
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct Instruction {
+    turn: Turn,
+    distance: u32,
+}
