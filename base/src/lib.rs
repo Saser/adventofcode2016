@@ -1,7 +1,45 @@
+//! This crate abstracts away some things that are common for all solutions to Advent of Code
+//! problems, for instance by providing a trait that solutions should implement in order to be
+//! usable by the `aoc` utility.
+
 pub mod utils;
 
 use std::str::FromStr;
 
+/// Implementations of this trait should be able to solve Advent of Code problems. Usually an empty
+/// struct will suffice, e.g.
+///
+/// ```
+/// # use base::Part;
+/// # use base::ProblemSolver;
+/// struct Solver;
+///
+/// impl ProblemSolver for Solver {
+///     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
+///         // ...
+///         # unimplemented!()
+///     }
+///     fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String> {
+///         // ...
+///         # unimplemented!()
+///     }
+/// }
+/// ```
+pub trait ProblemSolver {
+    /// Solve the given [`Part`](enum.Part.html) of the problem using `input` as the input string.
+    /// If a solution is found, an `Ok` value containing the solution as a text representation
+    /// should be returned. If any error occurs, an `Err` value with a description of the error
+    /// should be returned.
+    fn solve(&self, input: &str, part: &Part) -> Result<String, String>;
+
+    /// Solve the given [`Part`](enum.Part.html) of the problem by reading the input from the file
+    /// given by `file_path`. The returned value should be as for the [`solve`](#tymethod.solve)
+    /// method.
+    fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String>;
+}
+
+/// A simple enum to represent either part 1 or part 2 of the problem, as all problems have two
+/// parts.
 #[derive(Debug, Eq, PartialEq)]
 pub enum Part {
     One,
@@ -18,12 +56,6 @@ impl FromStr for Part {
             _ => Err(format!("invalid part specification: {}", part_str)),
         }
     }
-}
-
-pub trait ProblemSolver {
-    fn solve(&self, input: &str, part: &Part) -> Result<String, String>;
-
-    fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String>;
 }
 
 #[cfg(test)]
