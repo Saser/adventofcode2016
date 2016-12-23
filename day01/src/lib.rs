@@ -32,9 +32,3 @@ fn solve_part_one(input: &str) -> Result<String, String> {
 fn solve_part_two(input: &str) -> Result<String, String> {
     Err("not implemented yet!".to_owned())
 }
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {}
-}
