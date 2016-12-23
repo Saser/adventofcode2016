@@ -2,7 +2,7 @@ pub mod utils;
 
 use std::str::FromStr;
 
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum Part {
     One,
     Two,
@@ -31,27 +31,25 @@ mod tests {
     use super::*;
 
     #[test]
-    fn part_from_str() {
-        let p1_str1 = "one";
-        let p1_str2 = "1";
-        let p1 = Part::One;
-        assert_eq!(Part::from_str(p1_str1).unwrap(), p1);
-        assert_eq!(Part::from_str(p1_str2).unwrap(), p1);
+    fn part1_from_str() {
+        let part1_str = "1";
+        let part1 = Part::One;
+        assert_eq!(Part::from_str(part1_str).unwrap(), part1);
+    }
 
-        let p2_str1 = "two";
-        let p2_str2 = "2";
-        let p2 = Part::Two;
-        assert_eq!(Part::from_str(p2_str1).unwrap(), p2);
-        assert_eq!(Part::from_str(p2_str2).unwrap(), p2);
+    #[test]
+    fn part2_from_str() {
+        let part2_str = "2";
+        let part2 = Part::Two;
+        assert_eq!(Part::from_str(part2_str).unwrap(), part2);
     }
 
     #[test]
     fn part_from_str_err() {
-        let err1 = "derp";
-        let err2 = "0ne";
-        let err3 = "3";
-        assert!(Part::from_str(err1).is_err());
-        assert!(Part::from_str(err2).is_err());
-        assert!(Part::from_str(err3).is_err());
+        let err_strs = ["", "one", "two", "01", "02", "-1", "-2", "3"];
+        for err_str in &err_strs {
+            let err = Part::from_str(err_str);
+            assert!(err.is_err());
+        }
     }
 }
