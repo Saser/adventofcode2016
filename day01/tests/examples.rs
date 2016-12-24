@@ -18,22 +18,22 @@ mod part1 {
         get_answer(input, &Part::One)
     }
 
-    fn correct_answer(input: &str, expected: u32) -> bool {
-        get_answer_p1(input) == expected
+    fn assert_correct_answer(input: &str, expected: u32) {
+        assert_eq!(get_answer_p1(input), expected);
     }
 
     #[test]
     fn example1() {
-        assert!(correct_answer("R2, L3", 5));
+        assert_correct_answer("R2, L3", 5);
     }
 
     #[test]
     fn example2() {
-        assert!(correct_answer("R2, R2, R2", 2));
+        assert_correct_answer("R2, R2, R2", 2);
     }
 
     #[test]
     fn example3() {
-        assert!(correct_answer("R5, L5, R5, R3", 12));
+        assert_correct_answer("R5, L5, R5, R3", 12);
     }
 }
