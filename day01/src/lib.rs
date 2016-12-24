@@ -135,7 +135,7 @@ struct Position {
 
 impl Position {
     fn taxi_distance(&self) -> u32 {
-        self.x + self.y
+        self.x.abs() as u32 + self.y.abs() as u32
     }
 }
 
