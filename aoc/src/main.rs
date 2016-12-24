@@ -10,7 +10,7 @@ extern crate day01;
 macro_rules! err_println {
     ( $( $arg : tt )* ) => {{
         use std::io::Write;
-        let _ = writeln!(&mut ::std::io::stderr(), $($arg)*);
+        let _ = writeln!(&mut std::io::stderr(), $($arg)*);
     }}
 }
 
