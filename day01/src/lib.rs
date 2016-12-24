@@ -133,6 +133,12 @@ struct Position {
     y: i32,
 }
 
+impl Position {
+    fn taxi_distance(&self) -> u32 {
+        self.x + self.y
+    }
+}
+
 impl Add for Position {
     type Output = Position;
 
