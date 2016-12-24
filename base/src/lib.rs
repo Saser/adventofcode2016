@@ -31,11 +31,6 @@ pub trait ProblemSolver {
     /// should be returned. If any error occurs, an `Err` value with a description of the error
     /// should be returned.
     fn solve(&self, input: &str, part: &Part) -> Result<String, String>;
-
-    /// Solve the given [`Part`](enum.Part.html) of the problem by reading the input from the file
-    /// given by `file_path`. The returned value should be as for the [`solve`](#tymethod.solve)
-    /// method.
-    fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String>;
 }
 
 /// A simple enum to represent either part 1 or part 2 of the problem, as all problems have two
