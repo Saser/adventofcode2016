@@ -63,7 +63,7 @@ fn solve_part_two(input: &str) -> Result<String, String> {
         visited_positions.insert(position);
     }
 
-    Err("the path is never crosses itself".to_owned())
+    Err("the path never crosses itself".to_string())
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -98,10 +98,10 @@ impl FromStr for Instruction {
 
         let (turn_str, distance_str) = s.split_at(1);
         let turn = Turn::from_str(turn_str)?;
-        let distance = u32::from_str(distance_str).map_err(|e| e.description().to_owned())?;
+        let distance = u32::from_str(distance_str).map_err(|e| e.description().to_string())?;
 
         if distance == 0 {
-            Err("distance must be positive".to_owned())
+            Err("distance must be positive".to_string())
         } else {
             Ok(Instruction {
                 turn: turn,

@@ -26,9 +26,9 @@ fn main() {
     let day = value_t!(matches, "day", u32).unwrap();
     let part = value_t!(matches, "part", base::Part).unwrap();
     let input = if matches.is_present("input") {
-        Input::Literal(matches.value_of("input").unwrap().to_owned())
+        Input::Literal(matches.value_of("input").unwrap().to_string())
     } else {
-        Input::File(matches.value_of("file").unwrap().to_owned())
+        Input::File(matches.value_of("file").unwrap().to_string())
     };
 
     let solver = get_solver(day).unwrap();
@@ -46,6 +46,6 @@ fn main() {
 fn get_solver(day: u32) -> Result<Box<ProblemSolver>, String> {
     match day {
         1 => Ok(day01::get_solver()),
-        _ => Err("day either invalid or not implemented yet".to_owned()),
+        _ => Err("day either invalid or not implemented yet".to_string()),
     }
 }
