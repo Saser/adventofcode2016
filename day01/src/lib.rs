@@ -26,7 +26,16 @@ impl ProblemSolver for Solver {
 }
 
 fn solve_part_one(input: &str) -> Result<String, String> {
-    Err("not implemented yet!".to_owned())
+    let mut traveler = Traveler::new();
+
+    for ins_str in input.split(", ") {
+        match Instruction::from_str(ins_str) {
+            Ok(ins) => traveler.apply_instruction(&ins),
+            Err(err) => return Err(err),
+        };
+    }
+
+    Ok(traveler.position.taxi_distance().to_string())
 }
 
 fn solve_part_two(input: &str) -> Result<String, String> {
