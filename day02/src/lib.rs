@@ -60,3 +60,110 @@ impl FromStr for Movement {
         }
     }
 }
+
+#[derive(Debug, Eq, PartialEq)]
+struct Position {
+    x: i32,
+    y: i32,
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct Keypad {
+    position: Position,
+}
+
+impl Keypad {
+    fn new() -> Keypad {
+        Keypad { position: Position { x: 0, y: 0 } }
+    }
+
+    fn do_move(&mut self, movement: &Movement) {
+        match *movement {
+            Movement::Up => self.move_up(),
+            Movement::Down => self.move_down(),
+            Movement::Left => self.move_left(),
+            Movement::Right => self.move_right(),
+        }
+    }
+
+    fn move_up(&mut self) {
+        if self.position.y < 1 {
+            self.position.y += 1
+        }
+    }
+
+    fn move_down(&mut self) {
+        if self.position.y > -1 {
+            self.position.y -= 1
+        }
+    }
+
+    fn move_left(&mut self) {
+        if self.position.x > -1 {
+            self.position.x -= 1
+        }
+    }
+
+    fn move_right(&mut self) {
+        if self.position.x < 1 {
+            self.position.x += 1
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_move_up() {
+        let mut keypad = Keypad::new();
+        keypad.position.y = -1;
+
+        keypad.do_move(&Movement::Up);
+        assert_eq!(keypad.position.y, 0);
+        keypad.do_move(&Movement::Up);
+        assert_eq!(keypad.position.y, 1);
+        keypad.do_move(&Movement::Up);
+        assert_eq!(keypad.position.y, 1);
+    }
+
+    #[test]
+    fn test_move_down() {
+        let mut keypad = Keypad::new();
+        keypad.position.y = 1;
+
+        keypad.do_move(&Movement::Down);
+        assert_eq!(keypad.position.y, 0);
+        keypad.do_move(&Movement::Down);
+        assert_eq!(keypad.position.y, -1);
+        keypad.do_move(&Movement::Down);
+        assert_eq!(keypad.position.y, -1);
+    }
+
+    #[test]
+    fn test_move_left() {
+        let mut keypad = Keypad::new();
+        keypad.position.x = 1;
+
+        keypad.do_move(&Movement::Left);
+        assert_eq!(keypad.position.x, 0);
+        keypad.do_move(&Movement::Left);
+        assert_eq!(keypad.position.x, -1);
+        keypad.do_move(&Movement::Left);
+        assert_eq!(keypad.position.x, -1);
+    }
+
+    #[test]
+    fn test_move_right() {
+        let mut keypad = Keypad::new();
+        keypad.position.x = -1;
+
+        keypad.do_move(&Movement::Right);
+        assert_eq!(keypad.position.x, 0);
+        keypad.do_move(&Movement::Right);
+        assert_eq!(keypad.position.x, 1);
+        keypad.do_move(&Movement::Right);
+        assert_eq!(keypad.position.x, 1);
+    }
+}
