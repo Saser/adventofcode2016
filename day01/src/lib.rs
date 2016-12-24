@@ -25,6 +25,12 @@ impl ProblemSolver for Solver {
     }
 }
 
+// Here starts the actual solution, lol
+
+use std::collections::HashSet;
+use std::ops::Add;
+use std::str::FromStr;
+
 fn solve_part_one(input: &str) -> Result<String, String> {
     let mut traveler = Traveler::new();
 
@@ -39,13 +45,26 @@ fn solve_part_one(input: &str) -> Result<String, String> {
 }
 
 fn solve_part_two(input: &str) -> Result<String, String> {
-    Err("not implemented yet!".to_owned())
+    let mut traveler = Traveler::new();
+
+    for ins_str in input.split(", ") {
+        match Instruction::from_str(ins_str) {
+            Ok(ins) => traveler.apply_instruction(&ins),
+            Err(err) => return Err(err),
+        };
+    }
+
+    let mut visited_positions = HashSet::new();
+    for position in &traveler.path {
+        if visited_positions.contains(position) {
+            return Ok(position.taxi_distance().to_string());
+        }
+
+        visited_positions.insert(position);
+    }
+
+    Err("the path is never crosses itself".to_owned())
 }
-
-// Here starts the actual solution, lol
-
-use std::str::FromStr;
-use std::ops::Add;
 
 #[derive(Debug, Eq, PartialEq)]
 enum Turn {
@@ -136,7 +155,7 @@ impl Direction {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, Hash)]
 struct Position {
     x: i32,
     y: i32,
@@ -163,6 +182,7 @@ impl Add for Position {
 struct Traveler {
     direction: Direction,
     position: Position,
+    path: Vec<Position>,
 }
 
 impl Traveler {
@@ -170,6 +190,7 @@ impl Traveler {
         Traveler {
             direction: Direction::North,
             position: Position { x: 0, y: 0 },
+            path: vec![Position { x: 0, y: 0 }],
         }
     }
 
@@ -185,6 +206,7 @@ impl Traveler {
         self.turn(&instruction.turn);
         for _ in 0..instruction.distance {
             self.walk();
+            self.path.push(self.position.clone());
         }
     }
 }
