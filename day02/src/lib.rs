@@ -109,6 +109,10 @@ impl Keypad {
             self.position.x += 1
         }
     }
+
+    fn press(&self) -> u32 {
+        unimplemented!()
+    }
 }
 
 #[cfg(test)]
@@ -165,5 +169,37 @@ mod tests {
         assert_eq!(keypad.position.x, 1);
         keypad.do_move(&Movement::Right);
         assert_eq!(keypad.position.x, 1);
+    }
+
+    #[test]
+    fn test_press() {
+        let mut keypad = Keypad::new();
+
+        keypad.position = Position { x: -1, y: 1 };
+        assert_eq!(1, keypad.press());
+
+        keypad.position = Position { x: 0, y: 1 };
+        assert_eq!(2, keypad.press());
+
+        keypad.position = Position { x: 1, y: 1 };
+        assert_eq!(3, keypad.press());
+
+        keypad.position = Position { x: -1, y: 0 };
+        assert_eq!(4, keypad.press());
+
+        keypad.position = Position { x: 0, y: 0 };
+        assert_eq!(5, keypad.press());
+
+        keypad.position = Position { x: 1, y: 0 };
+        assert_eq!(6, keypad.press());
+
+        keypad.position = Position { x: -1, y: -1 };
+        assert_eq!(7, keypad.press());
+
+        keypad.position = Position { x: 0, y: -1 };
+        assert_eq!(8, keypad.press());
+
+        keypad.position = Position { x: 1, y: -1 };
+        assert_eq!(9, keypad.press());
     }
 }
