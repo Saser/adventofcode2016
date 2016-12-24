@@ -27,3 +27,21 @@ mod part1 {
         assert_correct_answer(input, "1985");
     }
 }
+
+mod part2 {
+    use super::*;
+
+    fn get_answer_p2(input: &str) -> String {
+        get_answer(input, &Part::Two)
+    }
+
+    fn assert_correct_answer(input: &str, expected: &str) {
+        assert_eq!(&get_answer_p2(input), expected);
+    }
+
+    #[test]
+    fn example1() {
+        let input = "ULL\nRRDDD\nLURDL\nUUUUD";
+        assert_correct_answer(input, "5DB3");
+    }
+}
