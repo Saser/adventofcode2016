@@ -6,6 +6,7 @@ extern crate base;
 use base::{Part, ProblemSolver};
 
 extern crate day01;
+extern crate day02;
 
 macro_rules! err_println {
     ( $( $arg : tt )* ) => {{
@@ -46,6 +47,7 @@ fn main() {
 fn get_solver(day: u32) -> Result<Box<ProblemSolver>, String> {
     match day {
         1 => Ok(day01::get_solver()),
+        2 => Ok(day02::get_solver()),
         _ => Err("day either invalid or not implemented yet".to_string()),
     }
 }

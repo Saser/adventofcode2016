@@ -9,3 +9,4 @@ clap = { version = "2.19.2", features = ["yaml"] }
 base = { path = "../base" }
 
 day01 = { path = "../day01" }
+day02 = { path = "../day02" }
