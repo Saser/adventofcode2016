@@ -29,10 +29,34 @@ impl ProblemSolver for Solver {
 
 // Here starts the actual solution
 
+use std::str::FromStr;
+
 fn solve_part_one(input_lines: &[String]) -> Result<String, String> {
     unimplemented!()
 }
 
 fn solve_part_two(input_lines: &[String]) -> Result<String, String> {
     unimplemented!()
+}
+
+#[derive(Debug, Eq, PartialEq)]
+enum Movement {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+impl FromStr for Movement {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "U" => Ok(Movement::Up),
+            "D" => Ok(Movement::Down),
+            "L" => Ok(Movement::Left),
+            "R" => Ok(Movement::Right),
+            _ => Err(format!("not a valid movement: {}", s)),
+        }
+    }
 }
