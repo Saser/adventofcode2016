@@ -32,7 +32,21 @@ impl ProblemSolver for Solver {
 use std::str::FromStr;
 
 fn solve_part_one(input_lines: &[&str]) -> Result<String, String> {
-    unimplemented!()
+    let mut keypad = Keypad::new();
+    let mut answer = String::new();
+
+    for line in input_lines {
+        for c in line.chars() {
+            let result = Movement::from_str(&c.to_string());
+            match result {
+                Ok(mvmt) => keypad.do_move(&mvmt),
+                Err(err) => return Err(err),
+            }
+        }
+        answer.push_str(&keypad.press().to_string());
+    }
+
+    Ok(answer)
 }
 
 fn solve_part_two(input_lines: &[&str]) -> Result<String, String> {
