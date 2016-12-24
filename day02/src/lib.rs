@@ -9,17 +9,8 @@ struct Solver;
 
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
-        let lines = input.split('\n')
+        let lines = input.split_terminator('\n')
             .collect::<Vec<&str>>();
-        match *part {
-            Part::One => solve_part_one(&lines),
-            Part::Two => solve_part_two(&lines),
-        }
-    }
-
-    fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String> {
-        let lines = base::utils::lines_from_file(file_path);
-        let lines = lines.iter().map(|s| s.as_ref()).collect::<Vec<&str>>();
         match *part {
             Part::One => solve_part_one(&lines),
             Part::Two => solve_part_two(&lines),
