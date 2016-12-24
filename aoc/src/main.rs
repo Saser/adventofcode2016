@@ -38,8 +38,8 @@ fn main() {
     };
 
     match solution {
-        Ok(answer) => println!("The answer is: {}", answer),
-        Err(error) => err_println!("An error occurred: {}", error),
+        Ok(answer) => println!("{}", answer),
+        Err(error) => err_println!("Error: {}", error),
     }
 }
 
