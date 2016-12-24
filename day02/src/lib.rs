@@ -111,7 +111,8 @@ impl Keypad {
     }
 
     fn press(&self) -> u32 {
-        unimplemented!()
+        let Position { x, y } = self.position;
+        (1 + -(y - 1) * 3 + (x + 1)) as u32
     }
 }
 
