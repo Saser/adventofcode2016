@@ -10,8 +10,7 @@ struct Solver;
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
         let lines = input.split('\n')
-            .map(str::to_string)
-            .collect::<Vec<String>>();
+            .collect::<Vec<&str>>();
         match *part {
             Part::One => solve_part_one(&lines),
             Part::Two => solve_part_two(&lines),
@@ -19,7 +18,10 @@ impl ProblemSolver for Solver {
     }
 
     fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String> {
-        let lines = base::utils::lines_from_file(file_path);
+        let lines = base::utils::lines_from_file(file_path)
+            .iter()
+            .map(String::as_ref)
+            .collect::<Vec<&str>>();
         match *part {
             Part::One => solve_part_one(&lines),
             Part::Two => solve_part_two(&lines),
@@ -31,11 +33,11 @@ impl ProblemSolver for Solver {
 
 use std::str::FromStr;
 
-fn solve_part_one(input_lines: &[String]) -> Result<String, String> {
+fn solve_part_one(input_lines: &[&str]) -> Result<String, String> {
     unimplemented!()
 }
 
-fn solve_part_two(input_lines: &[String]) -> Result<String, String> {
+fn solve_part_two(input_lines: &[&str]) -> Result<String, String> {
     unimplemented!()
 }
 
