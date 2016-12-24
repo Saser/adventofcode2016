@@ -165,6 +165,13 @@ impl Traveler {
     fn walk(&mut self) {
         self.position = self.position.clone() + self.direction.to_vector();
     }
+
+    fn apply_instruction(&mut self, instruction: &Instruction) {
+        self.turn(&instruction.turn);
+        for _ in 0..instruction.distance {
+            self.walk();
+        }
+    }
 }
 
 #[cfg(test)]
