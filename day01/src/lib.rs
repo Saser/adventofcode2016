@@ -127,6 +127,7 @@ impl Direction {
     }
 }
 
+#[derive(Debug, Eq, PartialEq, Clone)]
 struct Position {
     x: i32,
     y: i32,
@@ -140,6 +141,29 @@ impl Add for Position {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
         }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct Traveler {
+    direction: Direction,
+    position: Position,
+}
+
+impl Traveler {
+    fn new() -> Traveler {
+        Traveler {
+            direction: Direction::North,
+            position: Position { x: 0, y: 0 },
+        }
+    }
+
+    fn turn(&mut self, turn: &Turn) {
+        self.direction = self.direction.turn(turn);
+    }
+
+    fn walk(&mut self) {
+        self.position = self.position.clone() + self.direction.to_vector();
     }
 }
 
