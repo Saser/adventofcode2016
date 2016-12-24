@@ -35,7 +35,10 @@ fn main() {
     let solver = get_solver(day).unwrap();
     let solution = match input {
         Input::Literal(literal) => solver.solve(&literal, &part),
-        Input::File(file_path) => solver.solve_file(&file_path, &part),
+        Input::File(file_path) => {
+            let input = base::utils::read_file_as_string(&file_path);
+            solver.solve(&input, &part)
+        }
     };
 
     match solution {
