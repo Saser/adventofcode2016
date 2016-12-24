@@ -37,3 +37,20 @@ mod part1 {
         assert_correct_answer("R5, L5, R5, R3", 12);
     }
 }
+
+mod part2 {
+    use super::*;
+
+    fn get_answer_p2(input: &str) -> u32 {
+        get_answer(input, &Part::Two)
+    }
+
+    fn assert_correct_answer(input: &str, expected: u32) {
+        assert_eq!(get_answer_p2(input), expected);
+    }
+
+    #[test]
+    fn example1() {
+        assert_correct_answer("R8, R4, R4, R8", 4);
+    }
+}
