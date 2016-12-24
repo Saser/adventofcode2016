@@ -36,6 +36,7 @@ fn solve_part_two(input: &str) -> Result<String, String> {
 // Here starts the actual solution, lol
 
 use std::str::FromStr;
+use std::ops::Add;
 
 #[derive(Debug, Eq, PartialEq)]
 enum Turn {
@@ -78,6 +79,66 @@ impl FromStr for Instruction {
                 turn: turn,
                 distance: distance,
             })
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
+enum Direction {
+    North,
+    East,
+    South,
+    West,
+}
+
+impl Direction {
+    fn turn(&self, turn: &Turn) -> Direction {
+        match *turn {
+            Turn::Right => self.turn_right(),
+            Turn::Left => self.turn_left(),
+        }
+    }
+
+    fn turn_right(&self) -> Direction {
+        match *self {
+            Direction::North => Direction::East,
+            Direction::East => Direction::South,
+            Direction::South => Direction::West,
+            Direction::West => Direction::North,
+        }
+    }
+
+    fn turn_left(&self) -> Direction {
+        match *self {
+            Direction::North => Direction::West,
+            Direction::East => Direction::North,
+            Direction::South => Direction::East,
+            Direction::West => Direction::South,
+        }
+    }
+
+    fn to_vector(&self) -> Position {
+        match *self {
+            Direction::North => Position { x: 0, y: 1 },
+            Direction::East => Position { x: 1, y: 0 },
+            Direction::South => Position { x: 0, y: -1 },
+            Direction::West => Position { x: -1, y: 0 },
+        }
+    }
+}
+
+struct Position {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Position {
+    type Output = Position;
+
+    fn add(self, rhs: Position) -> Position {
+        Position {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
         }
     }
 }
