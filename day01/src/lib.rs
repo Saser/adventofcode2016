@@ -9,18 +9,10 @@ struct Solver;
 
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
+        let input = input.trim();
         match *part {
             Part::One => solve_part_one(&input),
             Part::Two => solve_part_two(&input),
-        }
-    }
-
-    fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String> {
-        let lines = base::utils::lines_from_file(file_path);
-        let input = &lines[0];
-        match *part {
-            Part::One => solve_part_one(input),
-            Part::Two => solve_part_two(input),
         }
     }
 }
