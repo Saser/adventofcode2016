@@ -202,8 +202,6 @@ impl FromStr for Position {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        use std::error::Error;
-
         let re = Regex::new(r"^\( *(?P<x>-?\d+), *(?P<y>-?\d+) *\)$").unwrap();
         let captures = re.captures(s).ok_or(format!("invalid position string: {}", s))?;
 
