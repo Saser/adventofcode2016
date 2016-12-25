@@ -74,6 +74,45 @@ mod direction_tests {
 }
 
 #[derive(Debug, Eq, PartialEq, Clone)]
+pub enum Turn {
+    Left,
+    Right,
+}
+
+impl FromStr for Turn {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "L" | "l" => Ok(Turn::Left),
+            "R" | "r" => Ok(Turn::Right),
+            _ => Err(format!("not a valid turn: {}", s)),
+        }
+    }
+}
+
+#[cfg(test)]
+mod turn_tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_left() {
+        let left_strs = ["L", "l"];
+        for left_str in &left_strs {
+            assert_eq!(Turn::Left, Turn::from_str(left_str).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_right() {
+        let right_strs = ["R", "r"];
+        for right_str in &right_strs {
+            assert_eq!(Turn::Right, Turn::from_str(right_str).unwrap());
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Position(i32, i32);
 
 impl FromStr for Position {
