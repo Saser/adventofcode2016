@@ -8,10 +8,10 @@ pub fn get_solver() -> Box<ProblemSolver> {
 struct Solver;
 
 impl ProblemSolver for Solver {
-    fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
+    fn solve(&self, input: &str, part: Part) -> Result<String, String> {
         let lines = input.split_terminator('\n')
             .collect::<Vec<&str>>();
-        match *part {
+        match part {
             Part::One => solve_part_one(&lines),
             Part::Two => solve_part_two(&lines),
         }

@@ -11,7 +11,7 @@ pub fn get_solver() -> Box<ProblemSolver> {
 struct Solver;
 
 impl ProblemSolver for Solver {
-    fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
+    fn solve(&self, input: &str, part: Part) -> Result<String, String> {
         let input = input.trim();
         let instructions = parse_input(input);
         Err("herp derp".to_string())

@@ -18,7 +18,7 @@ use std::str::FromStr;
 /// struct Solver;
 ///
 /// impl ProblemSolver for Solver {
-///     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
+///     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
 ///         // ...
 ///         # unimplemented!()
 ///     }
@@ -29,7 +29,7 @@ pub trait ProblemSolver {
     /// If a solution is found, an `Ok` value containing the solution as a text representation
     /// should be returned. If any error occurs, an `Err` value with a description of the error
     /// should be returned.
-    fn solve(&self, input: &str, part: &Part) -> Result<String, String>;
+    fn solve(&self, input: &str, part: Part) -> Result<String, String>;
 }
 
 /// A simple enum to represent either part 1 or part 2 of the problem, as all problems have two

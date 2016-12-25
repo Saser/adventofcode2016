@@ -68,14 +68,14 @@ impl FromStr for Direction {
 }
 
 impl Direction {
-    pub fn turn(&self, turn: &Turn) -> Direction {
-        match *turn {
+    pub fn turn(&self, turn: Turn) -> Direction {
+        match turn {
             Turn::Right => self.turn_right(),
             Turn::Left => self.turn_left(),
         }
     }
 
-    pub fn turn_mut(&mut self, turn: &Turn) {
+    pub fn turn_mut(&mut self, turn: Turn) {
         *self = self.turn(turn);
     }
 
@@ -228,14 +228,14 @@ impl Position {
         Position(0, 0)
     }
 
-    pub fn walk_n(&self, direction: &Direction, n: u32) -> Position {
-        let dx = match *direction {
+    pub fn walk_n(&self, direction: Direction, n: u32) -> Position {
+        let dx = match direction {
             Direction::Right => 1,
             Direction::Left => -1,
             _ => 0,
         } * n as i32;
 
-        let dy = match *direction {
+        let dy = match direction {
             Direction::Up => 1,
             Direction::Down => -1,
             _ => 0,
@@ -246,15 +246,15 @@ impl Position {
         self.clone() + vector
     }
 
-    pub fn walk(&self, direction: &Direction) -> Position {
+    pub fn walk(&self, direction: Direction) -> Position {
         self.walk_n(direction, 1)
     }
 
-    pub fn walk_n_mut(&mut self, direction: &Direction, n: u32) {
+    pub fn walk_n_mut(&mut self, direction: Direction, n: u32) {
         *self = self.walk_n(direction, n);
     }
 
-    pub fn walk_mut(&mut self, direction: &Direction) {
+    pub fn walk_mut(&mut self, direction: Direction) {
         self.walk_n_mut(direction, 1);
     }
 
