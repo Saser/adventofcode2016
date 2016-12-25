@@ -5,7 +5,7 @@ extern crate day01;
 
 use std::str::FromStr;
 
-fn get_answer(input: &str, part: &Part) -> u32 {
+fn get_answer(input: &str, part: Part) -> u32 {
     let solver = day01::get_solver();
     let answer_str = &solver.solve(input, part).unwrap();
     u32::from_str(answer_str).unwrap()
@@ -15,7 +15,7 @@ mod part1 {
     use super::*;
 
     fn get_answer_p1(input: &str) -> u32 {
-        get_answer(input, &Part::One)
+        get_answer(input, Part::One)
     }
 
     fn assert_correct_answer(input: &str, expected: u32) {
@@ -42,7 +42,7 @@ mod part2 {
     use super::*;
 
     fn get_answer_p2(input: &str) -> u32 {
-        get_answer(input, &Part::Two)
+        get_answer(input, Part::Two)
     }
 
     fn assert_correct_answer(input: &str, expected: u32) {
