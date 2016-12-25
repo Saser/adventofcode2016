@@ -7,6 +7,45 @@ use std::str::FromStr;
 use regex::Regex;
 
 #[derive(Debug, Eq, PartialEq, Clone)]
+pub enum Turn {
+    Left,
+    Right,
+}
+
+impl FromStr for Turn {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "L" | "l" => Ok(Turn::Left),
+            "R" | "r" => Ok(Turn::Right),
+            _ => Err(format!("not a valid turn: {}", s)),
+        }
+    }
+}
+
+#[cfg(test)]
+mod turn_tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_left() {
+        let left_strs = ["L", "l"];
+        for left_str in &left_strs {
+            assert_eq!(Turn::Left, Turn::from_str(left_str).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_right() {
+        let right_strs = ["R", "r"];
+        for right_str in &right_strs {
+            assert_eq!(Turn::Right, Turn::from_str(right_str).unwrap());
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub enum Direction {
     Up,
     Right,
@@ -24,6 +63,37 @@ impl FromStr for Direction {
             "D" | "d" => Ok(Direction::Down),
             "L" | "l" => Ok(Direction::Left),
             _ => Err(format!("not a valid direction: {}", s)),
+        }
+    }
+}
+
+impl Direction {
+    pub fn turn(&self, turn: &Turn) -> Direction {
+        match *turn {
+            Turn::Right => self.turn_right(),
+            Turn::Left => self.turn_left(),
+        }
+    }
+
+    pub fn turn_mut(&mut self, turn: &Turn) {
+        *self = self.turn(turn);
+    }
+
+    fn turn_right(&self) -> Direction {
+        match *self {
+            Direction::Up => Direction::Right,
+            Direction::Right => Direction::Down,
+            Direction::Down => Direction::Left,
+            Direction::Left => Direction::Up,
+        }
+    }
+
+    fn turn_left(&self) -> Direction {
+        match *self {
+            Direction::Up => Direction::Left,
+            Direction::Right => Direction::Up,
+            Direction::Down => Direction::Right,
+            Direction::Left => Direction::Down,
         }
     }
 }
@@ -71,44 +141,57 @@ mod direction_tests {
             assert!(Direction::from_str(err_str).is_err());
         }
     }
-}
-
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub enum Turn {
-    Left,
-    Right,
-}
-
-impl FromStr for Turn {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "L" | "l" => Ok(Turn::Left),
-            "R" | "r" => Ok(Turn::Right),
-            _ => Err(format!("not a valid turn: {}", s)),
-        }
-    }
-}
-
-#[cfg(test)]
-mod turn_tests {
-    use super::*;
 
     #[test]
-    fn test_parse_left() {
-        let left_strs = ["L", "l"];
-        for left_str in &left_strs {
-            assert_eq!(Turn::Left, Turn::from_str(left_str).unwrap());
-        }
+    fn test_turn_right() {
+        let direction = Direction::Up;
+        let new_direction = direction.turn(&Turn::Right);
+        assert_eq!(new_direction, Direction::Right);
+        let new_direction = new_direction.turn(&Turn::Right);
+        assert_eq!(new_direction, Direction::Down);
+        let new_direction = new_direction.turn(&Turn::Right);
+        assert_eq!(new_direction, Direction::Left);
+        let new_direction = new_direction.turn(&Turn::Right);
+        assert_eq!(new_direction, Direction::Up);
     }
 
     #[test]
-    fn test_parse_right() {
-        let right_strs = ["R", "r"];
-        for right_str in &right_strs {
-            assert_eq!(Turn::Right, Turn::from_str(right_str).unwrap());
-        }
+    fn test_turn_mut_right() {
+        let mut direction = Direction::Up;
+        direction.turn_mut(&Turn::Right);
+        assert_eq!(direction, Direction::Right);
+        direction.turn_mut(&Turn::Right);
+        assert_eq!(direction, Direction::Down);
+        direction.turn_mut(&Turn::Right);
+        assert_eq!(direction, Direction::Left);
+        direction.turn_mut(&Turn::Right);
+        assert_eq!(direction, Direction::Up);
+    }
+
+    #[test]
+    fn test_turn_left() {
+        let direction = Direction::Up;
+        let new_direction = direction.turn(&Turn::Left);
+        assert_eq!(new_direction, Direction::Left);
+        let new_direction = new_direction.turn(&Turn::Left);
+        assert_eq!(new_direction, Direction::Down);
+        let new_direction = new_direction.turn(&Turn::Left);
+        assert_eq!(new_direction, Direction::Right);
+        let new_direction = new_direction.turn(&Turn::Left);
+        assert_eq!(new_direction, Direction::Up);
+    }
+
+    #[test]
+    fn test_turn_mut_left() {
+        let mut direction = Direction::Up;
+        direction.turn_mut(&Turn::Left);
+        assert_eq!(direction, Direction::Left);
+        direction.turn_mut(&Turn::Left);
+        assert_eq!(direction, Direction::Down);
+        direction.turn_mut(&Turn::Left);
+        assert_eq!(direction, Direction::Right);
+        direction.turn_mut(&Turn::Left);
+        assert_eq!(direction, Direction::Up);
     }
 }
 
@@ -170,7 +253,7 @@ impl Position {
     }
 
     fn walk_n_mut(&mut self, direction: &Direction, n: u32) {
-        *self = self.clone().walk_n(direction, n);
+        *self = self.walk_n(direction, n);
     }
 
     fn walk_mut(&mut self, direction: &Direction) {
