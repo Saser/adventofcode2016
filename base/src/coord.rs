@@ -103,6 +103,42 @@ impl Add for Position {
     }
 }
 
+impl Position {
+    fn new() -> Position {
+        Position(0, 0)
+    }
+
+    fn walk_n(&self, direction: &Direction, n: u32) -> Position {
+        let dx = match *direction {
+            Direction::Right => 1,
+            Direction::Left => -1,
+            _ => 0,
+        } * n as i32;
+
+        let dy = match *direction {
+            Direction::Up => 1,
+            Direction::Down => -1,
+            _ => 0,
+        } * n as i32;
+
+        let vector = Position(dx, dy);
+
+        self.clone() + vector
+    }
+
+    fn walk(&self, direction: &Direction) -> Position {
+        self.walk_n(direction, 1)
+    }
+
+    fn walk_n_mut(&mut self, direction: &Direction, n: u32) {
+        *self = self.clone().walk_n(direction, n);
+    }
+
+    fn walk_mut(&mut self, direction: &Direction) {
+        self.walk_n_mut(direction, 1);
+    }
+}
+
 #[cfg(test)]
 mod position_tests {
     use super::*;
@@ -171,5 +207,57 @@ mod position_tests {
         let pos2 = Position(-2, -3);
         let new_pos = pos1 + pos2;
         assert_eq!(Position(-1, -1), new_pos);
+    }
+
+    #[test]
+    fn test_walk_n() {
+        let pos = Position::new();
+        let new_pos = pos.walk_n(&Direction::Up, 3);
+        assert_eq!(Position(0, 3), new_pos);
+        let new_pos = new_pos.walk_n(&Direction::Right, 4);
+        assert_eq!(Position(4, 3), new_pos);
+        let new_pos = new_pos.walk_n(&Direction::Left, 8);
+        assert_eq!(Position(-4, 3), new_pos);
+        let new_pos = new_pos.walk_n(&Direction::Down, 4);
+        assert_eq!(Position(-4, -1), new_pos);
+    }
+
+    #[test]
+    fn test_walk_mut_n() {
+        let mut pos = Position::new();
+        pos.walk_n_mut(&Direction::Up, 3);
+        assert_eq!(Position(0, 3), pos);
+        pos.walk_n_mut(&Direction::Right, 4);
+        assert_eq!(Position(4, 3), pos);
+        pos.walk_n_mut(&Direction::Left, 8);
+        assert_eq!(Position(-4, 3), pos);
+        pos.walk_n_mut(&Direction::Down, 4);
+        assert_eq!(Position(-4, -1), pos);
+    }
+
+    #[test]
+    fn test_walk() {
+        let pos = Position::new();
+        let new_pos = pos.walk(&Direction::Up);
+        assert_eq!(Position(0, 1), new_pos);
+        let new_pos = new_pos.walk(&Direction::Right);
+        assert_eq!(Position(1, 1), new_pos);
+        let new_pos = new_pos.walk(&Direction::Left);
+        assert_eq!(Position(0, 1), new_pos);
+        let new_pos = new_pos.walk(&Direction::Down);
+        assert_eq!(Position(0, 0), new_pos);
+    }
+
+    #[test]
+    fn test_walk_mut() {
+        let mut pos = Position::new();
+        pos.walk_mut(&Direction::Up);
+        assert_eq!(Position(0, 1), pos);
+        pos.walk_mut(&Direction::Right);
+        assert_eq!(Position(1, 1), pos);
+        pos.walk_mut(&Direction::Left);
+        assert_eq!(Position(0, 1), pos);
+        pos.walk_mut(&Direction::Down);
+        assert_eq!(Position(0, 0), pos);
     }
 }
