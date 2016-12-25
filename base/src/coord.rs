@@ -1,6 +1,7 @@
 //! This module contains some useful functions, structs, and enum for working with discrete
 //! coordinates in a plane.
 
+use std::ops::Add;
 use std::str::FromStr;
 
 use regex::Regex;
@@ -94,6 +95,14 @@ impl FromStr for Position {
     }
 }
 
+impl Add for Position {
+    type Output = Position;
+
+    fn add(self, rhs: Position) -> Position {
+        Position(self.0 + rhs.0, self.1 + rhs.1)
+    }
+}
+
 #[cfg(test)]
 mod position_tests {
     use super::*;
@@ -153,5 +162,23 @@ mod position_tests {
             assert_eq!(pos.0, 1);
             assert_eq!(pos.1, 2);
         }
+    }
+
+    #[test]
+    fn test_add_positive() {
+        let pos1 = Position(1, 2);
+        let pos2 = Position(2, 3);
+        let new_pos = pos1 + pos2;
+        assert_eq!(new_pos.0, 3);
+        assert_eq!(new_pos.1, 5);
+    }
+
+    #[test]
+    fn test_add_negative() {
+        let pos1 = Position(1, 2);
+        let pos2 = Position(-2, -3);
+        let new_pos = pos1 + pos2;
+        assert_eq!(new_pos.0, -1);
+        assert_eq!(new_pos.1, -1);
     }
 }
