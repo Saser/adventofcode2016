@@ -111,8 +111,7 @@ mod position_tests {
     fn test_parse_origin() {
         let origin_str = "(0, 0)";
         let origin = Position::from_str(origin_str).unwrap();
-        assert_eq!(origin.0, 0);
-        assert_eq!(origin.1, 0);
+        assert_eq!(Position(0, 0), origin);
     }
 
     #[test]
@@ -120,8 +119,7 @@ mod position_tests {
         let origin_strs = ["(-0, 0)", "(0, -0)", "(-0, -0)"];
         for origin_str in &origin_strs {
             let origin = Position::from_str(origin_str).unwrap();
-            assert_eq!(origin.0, 0);
-            assert_eq!(origin.1, 0);
+            assert_eq!(Position(0, 0), origin);
         }
     }
 
@@ -129,29 +127,25 @@ mod position_tests {
     fn test_parse_positve() {
         let pos_str = "(1, 10)";
         let pos = Position::from_str(pos_str).unwrap();
-        assert_eq!(pos.0, 1);
-        assert_eq!(pos.1, 10);
+        assert_eq!(Position(1, 10), pos);
     }
 
     #[test]
     fn test_parse_one_negative() {
         let pos_str = "(-1, 10)";
         let pos = Position::from_str(pos_str).unwrap();
-        assert_eq!(pos.0, -1);
-        assert_eq!(pos.1, 10);
+        assert_eq!(Position(-1, 10), pos);
 
         let pos_str = "(1, -10)";
         let pos = Position::from_str(pos_str).unwrap();
-        assert_eq!(pos.0, 1);
-        assert_eq!(pos.1, -10);
+        assert_eq!(Position(1, -10), pos);
     }
 
     #[test]
     fn test_parse_both_negative() {
         let pos_str = "(-1, -10)";
         let pos = Position::from_str(pos_str).unwrap();
-        assert_eq!(pos.0, -1);
-        assert_eq!(pos.1, -10);
+        assert_eq!(Position(-1, -10), pos);
     }
 
     #[test]
@@ -159,8 +153,7 @@ mod position_tests {
         let pos_strs = ["(1,2)", "( 1, 2 )", "(      1, 2    )"];
         for pos_str in &pos_strs {
             let pos = Position::from_str(pos_str).unwrap();
-            assert_eq!(pos.0, 1);
-            assert_eq!(pos.1, 2);
+            assert_eq!(Position(1, 2), pos);
         }
     }
 
@@ -169,8 +162,7 @@ mod position_tests {
         let pos1 = Position(1, 2);
         let pos2 = Position(2, 3);
         let new_pos = pos1 + pos2;
-        assert_eq!(new_pos.0, 3);
-        assert_eq!(new_pos.1, 5);
+        assert_eq!(Position(3, 5), new_pos);
     }
 
     #[test]
@@ -178,7 +170,6 @@ mod position_tests {
         let pos1 = Position(1, 2);
         let pos2 = Position(-2, -3);
         let new_pos = pos1 + pos2;
-        assert_eq!(new_pos.0, -1);
-        assert_eq!(new_pos.1, -1);
+        assert_eq!(Position(-1, -1), new_pos);
     }
 }
