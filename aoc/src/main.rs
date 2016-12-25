@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate clap;
-use clap::{Arg, App};
+use clap::App;
 
 extern crate base;
-use base::{Part, ProblemSolver};
+use base::ProblemSolver;
 
 extern crate day01;
 extern crate day02;
