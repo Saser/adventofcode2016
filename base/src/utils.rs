@@ -16,6 +16,6 @@ pub fn read_file_as_string(file_path: &str) -> String {
     let file = File::open(file_path).unwrap();
     let mut reader = BufReader::new(&file);
     let mut buf = String::new();
-    reader.read_to_string(&mut buf);
+    let _ = reader.read_to_string(&mut buf);
     buf
 }
