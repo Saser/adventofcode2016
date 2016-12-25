@@ -2,6 +2,7 @@ extern crate base;
 use base::{Part, ProblemSolver};
 use base::coord::{Direction, Position, Turn};
 
+use std::collections::HashSet;
 use std::str::FromStr;
 
 pub fn get_solver() -> Box<ProblemSolver> {
@@ -12,17 +13,54 @@ struct Solver;
 
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
-        let input = input.trim();
-        let instructions = parse_input(input);
-        Err("herp derp".to_string())
+        let instructions = parse_input(input)?;
+        match part {
+            Part::One => solve_part_one(&instructions),
+            Part::Two => solve_part_two(&instructions),
+        }
     }
 }
 
 // Here starts the actual solution, lol
 
+fn solve_part_one(instructions: &[Instruction]) -> Result<String, String> {
+    let mut path = travel(instructions);
+    match path.pop() {
+        Some(position) => Ok(position.taxi_distance().to_string()),
+        None => Err("something went wrong, the path was empty".to_owned()),
+    }
+}
+
+fn solve_part_two(instructions: &[Instruction]) -> Result<String, String> {
+    let path = travel(instructions);
+    let mut visited = HashSet::new();
+    for position in &path {
+        if visited.contains(&position) {
+            return Ok(position.taxi_distance().to_string());
+        }
+
+        visited.insert(position);
+    }
+    Err(format!("the path never crosses itself: {:?}", path))
+}
+
 fn parse_input(input: &str) -> Result<Vec<Instruction>, String> {
-    let instructions = input.split(", ").map(Instruction::from_str);
+    let instructions = input.trim().split(", ").map(Instruction::from_str);
     base::utils::any_err(instructions)
+}
+
+fn travel(instructions: &[Instruction]) -> Vec<Position> {
+    let mut direction = Direction::Up;
+    let mut position = Position::new();
+    let mut path = vec![position];
+    for instruction in instructions {
+        direction.turn_mut(instruction.turn);
+        for _ in 0..instruction.distance {
+            position.walk_mut(direction);
+            path.push(position);
+        }
+    }
+    path
 }
 
 #[derive(Debug, Eq, PartialEq)]
