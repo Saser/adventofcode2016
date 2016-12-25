@@ -1,5 +1,8 @@
 extern crate base;
 use base::{Part, ProblemSolver};
+use base::coord::{Direction, Position, Turn};
+
+use std::str::FromStr;
 
 pub fn get_solver() -> Box<ProblemSolver> {
     Box::new(Solver)
@@ -10,70 +13,15 @@ struct Solver;
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: &Part) -> Result<String, String> {
         let input = input.trim();
-        match *part {
-            Part::One => solve_part_one(&input),
-            Part::Two => solve_part_two(&input),
-        }
+        let instructions = parse_input(input);
+        Err("herp derp".to_string())
     }
 }
 
 // Here starts the actual solution, lol
 
-use std::collections::HashSet;
-use std::ops::Add;
-use std::str::FromStr;
-
-fn solve_part_one(input: &str) -> Result<String, String> {
-    let mut traveler = Traveler::new();
-
-    for ins_str in input.split(", ") {
-        match Instruction::from_str(ins_str) {
-            Ok(ins) => traveler.apply_instruction(&ins),
-            Err(err) => return Err(err),
-        };
-    }
-
-    Ok(traveler.position.taxi_distance().to_string())
-}
-
-fn solve_part_two(input: &str) -> Result<String, String> {
-    let mut traveler = Traveler::new();
-
-    for ins_str in input.split(", ") {
-        match Instruction::from_str(ins_str) {
-            Ok(ins) => traveler.apply_instruction(&ins),
-            Err(err) => return Err(err),
-        };
-    }
-
-    let mut visited_positions = HashSet::new();
-    for position in &traveler.path {
-        if visited_positions.contains(position) {
-            return Ok(position.taxi_distance().to_string());
-        }
-
-        visited_positions.insert(position);
-    }
-
-    Err("the path never crosses itself".to_string())
-}
-
-#[derive(Debug, Eq, PartialEq)]
-enum Turn {
-    Left,
-    Right,
-}
-
-impl FromStr for Turn {
-    type Err = String;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "L" => Ok(Turn::Left),
-            "R" => Ok(Turn::Right),
-            _ => Err(format!("not a valid turn: {}", s)),
-        }
-    }
+fn parse_input(input: &str) -> Vec<Instruction> {
+    unimplemented!()
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -103,128 +51,9 @@ impl FromStr for Instruction {
     }
 }
 
-#[derive(Debug, Eq, PartialEq)]
-enum Direction {
-    North,
-    East,
-    South,
-    West,
-}
-
-impl Direction {
-    fn turn(&self, turn: &Turn) -> Direction {
-        match *turn {
-            Turn::Right => self.turn_right(),
-            Turn::Left => self.turn_left(),
-        }
-    }
-
-    fn turn_right(&self) -> Direction {
-        match *self {
-            Direction::North => Direction::East,
-            Direction::East => Direction::South,
-            Direction::South => Direction::West,
-            Direction::West => Direction::North,
-        }
-    }
-
-    fn turn_left(&self) -> Direction {
-        match *self {
-            Direction::North => Direction::West,
-            Direction::East => Direction::North,
-            Direction::South => Direction::East,
-            Direction::West => Direction::South,
-        }
-    }
-
-    fn to_vector(&self) -> Position {
-        match *self {
-            Direction::North => Position { x: 0, y: 1 },
-            Direction::East => Position { x: 1, y: 0 },
-            Direction::South => Position { x: 0, y: -1 },
-            Direction::West => Position { x: -1, y: 0 },
-        }
-    }
-}
-
-#[derive(Debug, Eq, PartialEq, Clone, Hash)]
-struct Position {
-    x: i32,
-    y: i32,
-}
-
-impl Position {
-    fn taxi_distance(&self) -> u32 {
-        self.x.abs() as u32 + self.y.abs() as u32
-    }
-}
-
-impl Add for Position {
-    type Output = Position;
-
-    fn add(self, rhs: Position) -> Position {
-        Position {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-        }
-    }
-}
-
-#[derive(Debug, Eq, PartialEq)]
-struct Traveler {
-    direction: Direction,
-    position: Position,
-    path: Vec<Position>,
-}
-
-impl Traveler {
-    fn new() -> Traveler {
-        Traveler {
-            direction: Direction::North,
-            position: Position { x: 0, y: 0 },
-            path: vec![Position { x: 0, y: 0 }],
-        }
-    }
-
-    fn turn(&mut self, turn: &Turn) {
-        self.direction = self.direction.turn(turn);
-    }
-
-    fn walk(&mut self) {
-        self.position = self.position.clone() + self.direction.to_vector();
-    }
-
-    fn apply_instruction(&mut self, instruction: &Instruction) {
-        self.turn(&instruction.turn);
-        for _ in 0..instruction.distance {
-            self.walk();
-            self.path.push(self.position.clone());
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn turn_from_str() {
-        let right_str = "R";
-        let turn = Turn::from_str(right_str).unwrap();
-        assert_eq!(Turn::Right, turn);
-
-        let left_str = "L";
-        let turn = Turn::from_str(left_str).unwrap();
-        assert_eq!(Turn::Left, turn);
-    }
-
-    #[test]
-    fn turn_from_str_err() {
-        let err_strs = ["r", "l", "right", "left"];
-        for err_str in &err_strs {
-            assert!(Turn::from_str(err_str).is_err());
-        }
-    }
 
     #[test]
     fn instruction_from_str() {
