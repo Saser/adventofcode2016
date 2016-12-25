@@ -6,7 +6,7 @@ use std::str::FromStr;
 
 use regex::Regex;
 
-#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
 pub enum Turn {
     Left,
     Right,
@@ -45,7 +45,7 @@ mod turn_tests {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
 pub enum Direction {
     Up,
     Right,
@@ -195,7 +195,7 @@ mod direction_tests {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
 pub struct Position(i32, i32);
 
 impl FromStr for Position {
