@@ -21,7 +21,7 @@ impl ProblemSolver for Solver {
 // Here starts the actual solution, lol
 
 fn parse_input(input: &str) -> Result<Vec<Instruction>, String> {
-    let instructions = input.split_terminator('\n').map(Instruction::from_str);
+    let instructions = input.split(", ").map(Instruction::from_str);
     base::utils::any_err(instructions)
 }
 
