@@ -224,11 +224,11 @@ impl Add for Position {
 }
 
 impl Position {
-    fn new() -> Position {
+    pub fn new() -> Position {
         Position(0, 0)
     }
 
-    fn walk_n(&self, direction: &Direction, n: u32) -> Position {
+    pub fn walk_n(&self, direction: &Direction, n: u32) -> Position {
         let dx = match *direction {
             Direction::Right => 1,
             Direction::Left => -1,
@@ -246,19 +246,19 @@ impl Position {
         self.clone() + vector
     }
 
-    fn walk(&self, direction: &Direction) -> Position {
+    pub fn walk(&self, direction: &Direction) -> Position {
         self.walk_n(direction, 1)
     }
 
-    fn walk_n_mut(&mut self, direction: &Direction, n: u32) {
+    pub fn walk_n_mut(&mut self, direction: &Direction, n: u32) {
         *self = self.walk_n(direction, n);
     }
 
-    fn walk_mut(&mut self, direction: &Direction) {
+    pub fn walk_mut(&mut self, direction: &Direction) {
         self.walk_n_mut(direction, 1);
     }
 
-    fn taxi_distance(&self) -> u32 {
+    pub fn taxi_distance(&self) -> u32 {
         (self.0.abs() + self.1.abs()) as u32
     }
 }
