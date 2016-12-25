@@ -22,10 +22,6 @@ use std::str::FromStr;
 ///         // ...
 ///         # unimplemented!()
 ///     }
-///     fn solve_file(&self, file_path: &str, part: &Part) -> Result<String, String> {
-///         // ...
-///         # unimplemented!()
-///     }
 /// }
 /// ```
 pub trait ProblemSolver {
