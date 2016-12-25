@@ -1,5 +1,5 @@
 extern crate base;
-use base::{Part, ProblemSolver};
+use base::Part;
 
 extern crate day01;
 
