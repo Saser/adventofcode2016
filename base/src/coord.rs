@@ -257,6 +257,10 @@ impl Position {
     fn walk_mut(&mut self, direction: &Direction) {
         self.walk_n_mut(direction, 1);
     }
+
+    fn taxi_distance(&self) -> u32 {
+        (self.0.abs() + self.1.abs()) as u32
+    }
 }
 
 #[cfg(test)]
@@ -379,5 +383,26 @@ mod position_tests {
         assert_eq!(Position(0, 1), pos);
         pos.walk_mut(&Direction::Down);
         assert_eq!(Position(0, 0), pos);
+    }
+
+    #[test]
+    fn test_taxi_distance_positive() {
+        let pos = Position(2, 3);
+        assert_eq!(pos.taxi_distance(), 5);
+    }
+
+    #[test]
+    fn test_taxi_distance_one_negative() {
+        let pos = Position(-2, 3);
+        assert_eq!(pos.taxi_distance(), 5);
+
+        let pos = Position(2, -3);
+        assert_eq!(pos.taxi_distance(), 5);
+    }
+
+    #[test]
+    fn test_taxi_distance_negative() {
+        let pos = Position(-2, -3);
+        assert_eq!(pos.taxi_distance(), 5);
     }
 }
