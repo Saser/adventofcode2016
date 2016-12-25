@@ -2,7 +2,6 @@
 
 use std::fs::File;
 use std::io::{BufReader, Read};
-use std::vec::IntoIter;
 
 /// Takes a file path and returns a `Vec` of all the lines, without any trailing newline
 /// characters. Assumes that all lines in the file are readable as strings.
