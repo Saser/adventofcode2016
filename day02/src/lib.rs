@@ -30,13 +30,15 @@ fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
 }
 
 trait Keypad {
-    fn press(position: Position) -> Option<String>;
+    fn key(&self, position: Position) -> Option<String>;
+
+    fn initial_position() -> Position;
 }
 
 struct StandardKeypad;
 
 impl Keypad for StandardKeypad {
-    fn press(position: Position) -> Option<String> {
+    fn key(&self, position: Position) -> Option<String> {
         match position {
             Position(-1, 1) => Some(1.to_string()),
             Position(0, 1) => Some(2.to_string()),
@@ -49,6 +51,42 @@ impl Keypad for StandardKeypad {
             Position(1, -1) => Some(9.to_string()),
             _ => None,
         }
+    }
+
+    fn initial_position() -> Position {
+        Position(0, 0)
+    }
+}
+
+struct StupidKeypad;
+
+impl Keypad for StupidKeypad {
+    fn key(&self, position: Position) -> Option<String> {
+        match position {
+            Position(0, 2) => Some(1.to_string()),
+
+            Position(-1, 1) => Some(2.to_string()),
+            Position(0, 1) => Some(3.to_string()),
+            Position(1, 1) => Some(4.to_string()),
+
+            Position(-2, 0) => Some(5.to_string()),
+            Position(-1, 0) => Some(6.to_string()),
+            Position(0, 0) => Some(7.to_string()),
+            Position(1, 0) => Some(8.to_string()),
+            Position(2, 0) => Some(9.to_string()),
+
+            Position(-1, -1) => Some("A".to_owned()),
+            Position(0, -1) => Some("B".to_owned()),
+            Position(1, -1) => Some("C".to_owned()),
+
+            Position(0, -2) => Some("D".to_owned()),
+
+            _ => None,
+        }
+    }
+
+    fn initial_position() -> Position {
+        Position(0, 0)
     }
 }
 
