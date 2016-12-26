@@ -272,7 +272,7 @@ mod direction_tests {
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
-pub struct Position(i32, i32);
+pub struct Position(pub i32, pub i32);
 
 impl FromStr for Position {
     type Err = String;
