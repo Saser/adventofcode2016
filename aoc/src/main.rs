@@ -8,6 +8,8 @@ use base::ProblemSolver;
 extern crate day01;
 extern crate day02;
 
+use std::time::Instant;
+
 macro_rules! err_println {
     ( $( $arg : tt )* ) => {{
         use std::io::Write;
@@ -32,6 +34,8 @@ fn main() {
         Input::File(matches.value_of("file").unwrap().to_string())
     };
 
+    let timer = Instant::now();
+
     let solver = get_solver(day).unwrap();
     let solution = match input {
         Input::Literal(literal) => solver.solve(&literal, part),
@@ -44,7 +48,12 @@ fn main() {
     match solution {
         Ok(answer) => println!("{}", answer),
         Err(error) => err_println!("Error: {}", error),
-    }
+    };
+
+    let elapsed = timer.elapsed();
+    println!("Time elapsed: {}.{:09} seconds",
+             elapsed.as_secs(),
+             elapsed.subsec_nanos());
 }
 
 fn get_solver(day: u32) -> Result<Box<ProblemSolver>, String> {
