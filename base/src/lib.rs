@@ -2,8 +2,6 @@
 //! problems, for instance by providing a trait that solutions should implement in order to be
 //! usable by the `aoc` utility.
 
-#![feature(try_from)]
-
 extern crate regex;
 
 pub mod coord;
