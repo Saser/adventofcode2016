@@ -1,6 +1,6 @@
 extern crate base;
 use base::{Part, ProblemSolver};
-use base::coord::Position;
+use base::coord::{Direction, Position};
 
 pub fn get_solver() -> Box<ProblemSolver> {
     Box::new(Solver)
@@ -12,6 +12,10 @@ impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
         unimplemented!()
     }
+}
+
+fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
+    unimplemented!()
 }
 
 trait Keypad {
@@ -33,6 +37,99 @@ impl Keypad for StandardKeypad {
             Position(0, -1) => Some(8.to_string()),
             Position(1, -1) => Some(9.to_string()),
             _ => None,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_parse_input_single_line_() {
+        let input = "UULDDURD\n";
+        let expected = vec![vec![Direction::Up,
+                                 Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Right,
+                                 Direction::Down]];
+        assert_eq!(expected, parse_input(input).unwrap());
+    }
+
+    #[test]
+    fn test_parse_input_single_line_no_line_terminator() {
+        let input = "UULDDURD";
+        let expected = vec![vec![Direction::Up,
+                                 Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Right,
+                                 Direction::Down]];
+        assert_eq!(expected, parse_input(input).unwrap());
+    }
+
+    #[test]
+    fn test_parse_input_multiple_lines() {
+        let input = "ULDRD\nDDUDR\nULDULRDRU\n";
+        let expected = vec![vec![Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Right,
+                                 Direction::Down],
+                            vec![Direction::Down,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Down,
+                                 Direction::Right],
+                            vec![Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Left,
+                                 Direction::Right,
+                                 Direction::Down,
+                                 Direction::Right,
+                                 Direction::Up]];
+        assert_eq!(expected, parse_input(input).unwrap());
+    }
+
+    #[test]
+    fn test_parse_input_multiple_lines_no_trailing_newline() {
+        let input = "ULDRD\nDDUDR\nULDULRDRU";
+        let expected = vec![vec![Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Right,
+                                 Direction::Down],
+                            vec![Direction::Down,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Down,
+                                 Direction::Right],
+                            vec![Direction::Up,
+                                 Direction::Left,
+                                 Direction::Down,
+                                 Direction::Up,
+                                 Direction::Left,
+                                 Direction::Right,
+                                 Direction::Down,
+                                 Direction::Right,
+                                 Direction::Up]];
+        assert_eq!(expected, parse_input(input).unwrap());
+    }
+
+    #[test]
+    fn test_parse_input_err() {
+        let err_strs = ["", "U L D", "ASD", "UpLeftDown"];
+        for err_str in &err_strs {
+            if parse_input(err_str).is_ok() {
+                panic!("parse of input did not fail but should have: {}", err_str);
+            }
         }
     }
 }
