@@ -145,52 +145,52 @@ mod direction_tests {
     #[test]
     fn test_turn_right() {
         let direction = Direction::Up;
-        let new_direction = direction.turn(&Turn::Right);
+        let new_direction = direction.turn(Turn::Right);
         assert_eq!(new_direction, Direction::Right);
-        let new_direction = new_direction.turn(&Turn::Right);
+        let new_direction = new_direction.turn(Turn::Right);
         assert_eq!(new_direction, Direction::Down);
-        let new_direction = new_direction.turn(&Turn::Right);
+        let new_direction = new_direction.turn(Turn::Right);
         assert_eq!(new_direction, Direction::Left);
-        let new_direction = new_direction.turn(&Turn::Right);
+        let new_direction = new_direction.turn(Turn::Right);
         assert_eq!(new_direction, Direction::Up);
     }
 
     #[test]
     fn test_turn_mut_right() {
         let mut direction = Direction::Up;
-        direction.turn_mut(&Turn::Right);
+        direction.turn_mut(Turn::Right);
         assert_eq!(direction, Direction::Right);
-        direction.turn_mut(&Turn::Right);
+        direction.turn_mut(Turn::Right);
         assert_eq!(direction, Direction::Down);
-        direction.turn_mut(&Turn::Right);
+        direction.turn_mut(Turn::Right);
         assert_eq!(direction, Direction::Left);
-        direction.turn_mut(&Turn::Right);
+        direction.turn_mut(Turn::Right);
         assert_eq!(direction, Direction::Up);
     }
 
     #[test]
     fn test_turn_left() {
         let direction = Direction::Up;
-        let new_direction = direction.turn(&Turn::Left);
+        let new_direction = direction.turn(Turn::Left);
         assert_eq!(new_direction, Direction::Left);
-        let new_direction = new_direction.turn(&Turn::Left);
+        let new_direction = new_direction.turn(Turn::Left);
         assert_eq!(new_direction, Direction::Down);
-        let new_direction = new_direction.turn(&Turn::Left);
+        let new_direction = new_direction.turn(Turn::Left);
         assert_eq!(new_direction, Direction::Right);
-        let new_direction = new_direction.turn(&Turn::Left);
+        let new_direction = new_direction.turn(Turn::Left);
         assert_eq!(new_direction, Direction::Up);
     }
 
     #[test]
     fn test_turn_mut_left() {
         let mut direction = Direction::Up;
-        direction.turn_mut(&Turn::Left);
+        direction.turn_mut(Turn::Left);
         assert_eq!(direction, Direction::Left);
-        direction.turn_mut(&Turn::Left);
+        direction.turn_mut(Turn::Left);
         assert_eq!(direction, Direction::Down);
-        direction.turn_mut(&Turn::Left);
+        direction.turn_mut(Turn::Left);
         assert_eq!(direction, Direction::Right);
-        direction.turn_mut(&Turn::Left);
+        direction.turn_mut(Turn::Left);
         assert_eq!(direction, Direction::Up);
     }
 }
@@ -336,52 +336,52 @@ mod position_tests {
     #[test]
     fn test_walk_n() {
         let pos = Position::new();
-        let new_pos = pos.walk_n(&Direction::Up, 3);
+        let new_pos = pos.walk_n(Direction::Up, 3);
         assert_eq!(Position(0, 3), new_pos);
-        let new_pos = new_pos.walk_n(&Direction::Right, 4);
+        let new_pos = new_pos.walk_n(Direction::Right, 4);
         assert_eq!(Position(4, 3), new_pos);
-        let new_pos = new_pos.walk_n(&Direction::Left, 8);
+        let new_pos = new_pos.walk_n(Direction::Left, 8);
         assert_eq!(Position(-4, 3), new_pos);
-        let new_pos = new_pos.walk_n(&Direction::Down, 4);
+        let new_pos = new_pos.walk_n(Direction::Down, 4);
         assert_eq!(Position(-4, -1), new_pos);
     }
 
     #[test]
     fn test_walk_mut_n() {
         let mut pos = Position::new();
-        pos.walk_n_mut(&Direction::Up, 3);
+        pos.walk_n_mut(Direction::Up, 3);
         assert_eq!(Position(0, 3), pos);
-        pos.walk_n_mut(&Direction::Right, 4);
+        pos.walk_n_mut(Direction::Right, 4);
         assert_eq!(Position(4, 3), pos);
-        pos.walk_n_mut(&Direction::Left, 8);
+        pos.walk_n_mut(Direction::Left, 8);
         assert_eq!(Position(-4, 3), pos);
-        pos.walk_n_mut(&Direction::Down, 4);
+        pos.walk_n_mut(Direction::Down, 4);
         assert_eq!(Position(-4, -1), pos);
     }
 
     #[test]
     fn test_walk() {
         let pos = Position::new();
-        let new_pos = pos.walk(&Direction::Up);
+        let new_pos = pos.walk(Direction::Up);
         assert_eq!(Position(0, 1), new_pos);
-        let new_pos = new_pos.walk(&Direction::Right);
+        let new_pos = new_pos.walk(Direction::Right);
         assert_eq!(Position(1, 1), new_pos);
-        let new_pos = new_pos.walk(&Direction::Left);
+        let new_pos = new_pos.walk(Direction::Left);
         assert_eq!(Position(0, 1), new_pos);
-        let new_pos = new_pos.walk(&Direction::Down);
+        let new_pos = new_pos.walk(Direction::Down);
         assert_eq!(Position(0, 0), new_pos);
     }
 
     #[test]
     fn test_walk_mut() {
         let mut pos = Position::new();
-        pos.walk_mut(&Direction::Up);
+        pos.walk_mut(Direction::Up);
         assert_eq!(Position(0, 1), pos);
-        pos.walk_mut(&Direction::Right);
+        pos.walk_mut(Direction::Right);
         assert_eq!(Position(1, 1), pos);
-        pos.walk_mut(&Direction::Left);
+        pos.walk_mut(Direction::Left);
         assert_eq!(Position(0, 1), pos);
-        pos.walk_mut(&Direction::Down);
+        pos.walk_mut(Direction::Down);
         assert_eq!(Position(0, 0), pos);
     }
 
