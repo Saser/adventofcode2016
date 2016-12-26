@@ -15,6 +15,13 @@ impl ProblemSolver for Solver {
     }
 }
 
+fn enter_code<K>(finger: Finger<K>, all_directions: Vec<Vec<Direction>>) -> String
+    where K: Keypad
+{
+    let code = String::new();
+    code
+}
+
 fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
     if input.len() == 0 {
         return Err("parse_input: empty string".to_owned());
