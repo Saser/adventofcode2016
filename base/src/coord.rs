@@ -1,15 +1,29 @@
 //! This module contains some useful functions, structs, and enum for working with discrete
 //! coordinates in a plane.
 
+use regex::Regex;
+
 use std::ops::Add;
 use std::str::FromStr;
 
-use regex::Regex;
+use ::FromChar;
 
 #[derive(Debug, Eq, PartialEq, Clone, Copy, Hash)]
 pub enum Turn {
     Left,
     Right,
+}
+
+impl FromChar for Turn {
+    type Err = String;
+
+    fn from_char(c: char) -> Result<Self, Self::Err> {
+        match c {
+            'L' | 'l' => Ok(Turn::Left),
+            'R' | 'r' => Ok(Turn::Right),
+            _ => Err(format!("not a valid turn: {}", c)),
+        }
+    }
 }
 
 impl FromStr for Turn {
@@ -29,7 +43,15 @@ mod turn_tests {
     use super::*;
 
     #[test]
-    fn test_parse_left() {
+    fn test_parse_char_left() {
+        let left_chars = ['L', 'l'];
+        for left_char in &left_chars {
+            assert_eq!(Turn::Left, Turn::from_char(*left_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_left() {
         let left_strs = ["L", "l"];
         for left_str in &left_strs {
             assert_eq!(Turn::Left, Turn::from_str(left_str).unwrap());
@@ -37,7 +59,15 @@ mod turn_tests {
     }
 
     #[test]
-    fn test_parse_right() {
+    fn test_parse_char_right() {
+        let right_chars = ['R', 'r'];
+        for right_char in &right_chars {
+            assert_eq!(Turn::Right, Turn::from_char(*right_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_right() {
         let right_strs = ["R", "r"];
         for right_str in &right_strs {
             assert_eq!(Turn::Right, Turn::from_str(right_str).unwrap());
@@ -51,6 +81,20 @@ pub enum Direction {
     Right,
     Down,
     Left,
+}
+
+impl FromChar for Direction {
+    type Err = String;
+
+    fn from_char(c: char) -> Result<Self, Self::Err> {
+        match c {
+            'U' | 'u' => Ok(Direction::Up),
+            'R' | 'r' => Ok(Direction::Right),
+            'D' | 'd' => Ok(Direction::Down),
+            'L' | 'l' => Ok(Direction::Left),
+            _ => Err(format!("not a valid direction: {}", c)),
+        }
+    }
 }
 
 impl FromStr for Direction {
@@ -103,7 +147,15 @@ mod direction_tests {
     use super::*;
 
     #[test]
-    fn test_parse_up() {
+    fn test_parse_char_up() {
+        let up_chars = ['U', 'u'];
+        for up_char in &up_chars {
+            assert_eq!(Direction::Up, Direction::from_char(*up_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_up() {
         let up_strs = ["U", "u"];
         for up_str in &up_strs {
             assert_eq!(Direction::Up, Direction::from_str(up_str).unwrap());
@@ -111,7 +163,15 @@ mod direction_tests {
     }
 
     #[test]
-    fn test_parse_right() {
+    fn test_parse_char_right() {
+        let right_chars = ['R', 'r'];
+        for right_char in &right_chars {
+            assert_eq!(Direction::Right, Direction::from_char(*right_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_right() {
         let right_strs = ["R", "r"];
         for right_str in &right_strs {
             assert_eq!(Direction::Right, Direction::from_str(right_str).unwrap());
@@ -119,7 +179,15 @@ mod direction_tests {
     }
 
     #[test]
-    fn test_parse_down() {
+    fn test_parse_char_down() {
+        let down_chars = ['D', 'd'];
+        for down_char in &down_chars {
+            assert_eq!(Direction::Down, Direction::from_char(*down_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_down() {
         let down_strs = ["D", "d"];
         for down_str in &down_strs {
             assert_eq!(Direction::Down, Direction::from_str(down_str).unwrap());
@@ -127,7 +195,15 @@ mod direction_tests {
     }
 
     #[test]
-    fn test_parse_left() {
+    fn test_parse_char_left() {
+        let left_chars = ['L', 'l'];
+        for left_char in &left_chars {
+            assert_eq!(Direction::Left, Direction::from_char(*left_char).unwrap());
+        }
+    }
+
+    #[test]
+    fn test_parse_str_left() {
         let left_strs = ["L", "l"];
         for left_str in &left_strs {
             assert_eq!(Direction::Left, Direction::from_str(left_str).unwrap());
