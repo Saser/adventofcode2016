@@ -2,6 +2,8 @@
 //! problems, for instance by providing a trait that solutions should implement in order to be
 //! usable by the `aoc` utility.
 
+#![feature(try_from)]
+
 extern crate regex;
 
 pub mod coord;
@@ -30,6 +32,41 @@ pub trait ProblemSolver {
     /// should be returned. If any error occurs, an `Err` value with a description of the error
     /// should be returned.
     fn solve(&self, input: &str, part: Part) -> Result<String, String>;
+}
+
+/// Exactly the same as `FromStr` found in the standard library. Types that implement `FromChar`
+/// can be parsed from a single `char` into an instance of that type. Below is basic example.
+///
+/// ```
+/// use base::FromChar;
+///
+/// # #[derive(Debug, Eq, PartialEq)]
+/// enum MyEnum {
+///     Variant,
+///     AnotherVariant,
+/// }
+///
+/// impl FromChar for MyEnum {
+///     type Err = String;
+///
+///     fn from_char(c: char) -> Result<Self, Self::Err> {
+///         match c {
+///             'V' => Ok(MyEnum::Variant),
+///             'A' => Ok(MyEnum::AnotherVariant),
+///             _ => Err("invalid char".to_owned()),
+///         }
+///     }
+/// }
+///
+/// let ch = 'V';
+/// assert_eq!(MyEnum::Variant, MyEnum::from_char(ch).unwrap());
+///
+/// ```
+///
+pub trait FromChar: Sized {
+    type Err;
+
+    fn from_char(c: char) -> Result<Self, Self::Err>;
 }
 
 /// A simple enum to represent either part 1 or part 2 of the problem, as all problems have two
