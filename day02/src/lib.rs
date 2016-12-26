@@ -1,4 +1,5 @@
 extern crate base;
+use base::FromChar;
 use base::{Part, ProblemSolver};
 use base::coord::{Direction, Position};
 
@@ -15,7 +16,17 @@ impl ProblemSolver for Solver {
 }
 
 fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
-    unimplemented!()
+    if input.len() == 0 {
+        return Err("parse_input: empty string".to_owned());
+    }
+    let str_lines = input.split_terminator('\n');
+    let mut parsed = Vec::new();
+    for str_line in str_lines {
+        let directions = base::utils::any_err(str_line.chars()
+            .map(Direction::from_char))?;
+        parsed.push(directions);
+    }
+    Ok(parsed)
 }
 
 trait Keypad {
