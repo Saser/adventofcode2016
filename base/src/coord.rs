@@ -385,11 +385,19 @@ mod position_tests {
     }
 
     #[test]
-    fn test_different_spacing() {
+    fn test_parse_different_spacing() {
         let pos_strs = ["(1,2)", "( 1, 2 )", "(      1, 2    )"];
         for pos_str in &pos_strs {
             let pos = Position::from_str(pos_str).unwrap();
             assert_eq!(Position(1, 2), pos);
+        }
+    }
+
+    #[test]
+    fn test_parse_err() {
+        let err_strs = ["1,2)", "(1,2", "1,2", "(1.0, 2)", "[1,2]", "(1.2)"];
+        for err_str in &err_strs {
+            assert!(Position::from_str(err_str).is_err());
         }
     }
 
