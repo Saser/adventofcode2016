@@ -29,6 +29,20 @@ fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
     Ok(parsed)
 }
 
+struct Finger<K: Keypad> {
+    keypad: K,
+    current_position: Position,
+}
+
+impl<K: Keypad> Finger<K> {
+    fn new(keypad: K) -> Self {
+        Finger {
+            keypad: keypad,
+            current_position: K::initial_position(),
+        }
+    }
+}
+
 trait Keypad {
     fn key(&self, position: Position) -> Option<String>;
 
