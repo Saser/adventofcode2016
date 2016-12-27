@@ -7,6 +7,7 @@ use regex::Regex;
 #[macro_use]
 extern crate lazy_static;
 
+use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -56,7 +57,20 @@ impl Room {
 }
 
 fn calculate_checksum(s: &str) -> String {
-    unimplemented!()
+    fn compare_frequencies(a: &(char, u32), b: &(char, u32)) -> Ordering {
+        let freq_ord = b.1.cmp(&a.1); // sorted by frequency in descending order
+        match freq_ord {
+            Ordering::Equal => a.0.cmp(&b.0), // sorted by char in ascending order
+            _ => freq_ord,
+        }
+    }
+
+    let mut frequencies = char_frequencies(s).into_iter().collect::<Vec<(char, u32)>>();
+    println!("frequencies before sorting: {:?}", frequencies);
+    frequencies.sort_by(compare_frequencies);
+    println!("frequencies after sorting: {:?}", frequencies);
+
+    frequencies.iter().take(5).map(|&(c, _)| c).collect::<String>()
 }
 
 fn remove_dashes(s: &str) -> String {
