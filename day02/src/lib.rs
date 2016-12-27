@@ -48,6 +48,14 @@ impl<K: Keypad> Finger<K> {
             current_position: K::initial_position(),
         }
     }
+
+    fn walk(&mut self, direction: Direction) {
+        let next_position = self.current_position.walk(direction);
+        self.current_position = match self.keypad.key(next_position) {
+            Some(_) => next_position,
+            None => self.current_position,
+        };
+    }
 }
 
 trait Keypad {
@@ -201,5 +209,45 @@ mod tests {
                 panic!("parse of input did not fail but should have: {}", err_str);
             }
         }
+    }
+
+    #[test]
+    fn test_finger_walk() {
+        let mut finger = Finger::new(StandardKeypad);
+
+        finger.walk(Direction::Up);
+        assert_eq!(finger.current_position, Position(0, 1));
+
+        finger.walk(Direction::Left);
+        assert_eq!(finger.current_position, Position(-1, 1));
+
+        finger.walk(Direction::Down);
+        assert_eq!(finger.current_position, Position(-1, 0));
+
+        finger.walk(Direction::Right);
+        assert_eq!(finger.current_position, Position(0, 0));
+    }
+
+    #[test]
+    fn test_finger_walk_too_far() {
+        let mut finger = Finger::new(StandardKeypad);
+
+        finger.walk(Direction::Up);
+        finger.walk(Direction::Up);
+        assert_eq!(finger.current_position, Position(0, 1));
+
+        finger.walk(Direction::Left);
+        finger.walk(Direction::Left);
+        assert_eq!(finger.current_position, Position(-1, 1));
+
+        finger.walk(Direction::Down);
+        finger.walk(Direction::Down);
+        finger.walk(Direction::Down);
+        assert_eq!(finger.current_position, Position(-1, -1));
+
+        finger.walk(Direction::Right);
+        finger.walk(Direction::Right);
+        finger.walk(Direction::Right);
+        assert_eq!(finger.current_position, Position(1, -1));
     }
 }
