@@ -1,6 +1,12 @@
 extern crate base;
 use base::{Part, ProblemSolver};
 
+extern crate regex;
+use regex::Regex;
+
+#[macro_use]
+extern crate lazy_static;
+
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -42,7 +48,18 @@ fn remove_dashes(s: &str) -> String {
 }
 
 fn sector_id_and_checksum(s: &str) -> Result<(u32, String), String> {
-    unimplemented!()
+    lazy_static! {
+        static ref RE: Regex = Regex::new(r"^(?P<sector_id>\d+)\[(?P<checksum>[a-z]{5})\]$").unwrap();
+    }
+
+    let captures = RE.captures(s).ok_or(format!("sector_id_and_checksum: invalid string: {}", s))?;
+
+    let sector_id_str = captures.name("sector_id").unwrap();
+    let sector_id = u32::from_str(sector_id_str).unwrap();
+
+    let checksum_str = captures.name("checksum").unwrap();
+
+    Ok((sector_id, checksum_str.to_owned()))
 }
 
 fn char_frequencies(s: &str) -> HashMap<char, u32> {
