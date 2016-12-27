@@ -278,8 +278,11 @@ impl FromStr for Position {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let re = Regex::new(r"^\( *(?P<x>-?\d+), *(?P<y>-?\d+) *\)$").unwrap();
-        let captures = re.captures(s).ok_or(format!("invalid position string: {}", s))?;
+        lazy_static! {
+            static ref RE: Regex = Regex::new(r"^\( *(?P<x>-?\d+), *(?P<y>-?\d+) *\)$").unwrap();
+        }
+
+        let captures = RE.captures(s).ok_or(format!("invalid position string: {}", s))?;
 
         let x_str = captures.name("x").unwrap();
         let x = i32::from_str(x_str).unwrap();
