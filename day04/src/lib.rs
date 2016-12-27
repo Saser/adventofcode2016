@@ -40,6 +40,10 @@ fn remove_dashes(s: &str) -> String {
     unimplemented!()
 }
 
+fn sector_id_and_checksum(s: &str) -> Result<(u32, String), String> {
+    unimplemented!()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -158,5 +162,51 @@ mod tests {
     #[test]
     fn test_remove_dashes_only_dashes() {
         assert_eq!("".to_owned(), remove_dashes("----"));
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum() {
+        let (sector_id, checksum) = sector_id_and_checksum("123[abcde]").unwrap();
+        assert_eq!(123, sector_id);
+        assert_eq!("abcde".to_owned(), checksum);
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_too_short_checksum() {
+        let err = sector_id_and_checksum("123[abe]");
+        assert!(err.is_err());
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_empty_sector_id() {
+        let err = sector_id_and_checksum("[abcde]");
+        assert!(err.is_err());
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_negative_sector_id() {
+        let err = sector_id_and_checksum("-123[abcde]");
+        assert!(err.is_err());
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_sector_id_with_letters() {
+        let err = sector_id_and_checksum("123asd[abcde]");
+        assert!(err.is_err());
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_wrong_parentheses() {
+        let err_strs = ["123(abcde)", "123{abcde}", "123<abcde>"];
+        for err_str in &err_strs {
+            let err = sector_id_and_checksum(err_str);
+            assert!(err.is_err());
+        }
+    }
+
+    #[test]
+    fn test_sector_id_and_checksum_trailing_characters() {
+        let err = sector_id_and_checksum("123[abcde]herp");
+        assert!(err.is_err());
     }
 }
