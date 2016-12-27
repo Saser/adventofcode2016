@@ -1,6 +1,7 @@
 extern crate base;
 use base::{Part, ProblemSolver};
 
+use std::collections::HashMap;
 use std::str::FromStr;
 
 pub fn get_solver() -> Box<ProblemSolver> {
@@ -41,6 +42,10 @@ fn remove_dashes(s: &str) -> String {
 }
 
 fn sector_id_and_checksum(s: &str) -> Result<(u32, String), String> {
+    unimplemented!()
+}
+
+fn char_frequencies(s: &str) -> HashMap<char, u32> {
     unimplemented!()
 }
 
@@ -223,6 +228,51 @@ mod tests {
         fn trailing_characters() {
             let err = sector_id_and_checksum("123[abcde]herp");
             assert!(err.is_err());
+        }
+    }
+
+    mod test_char_frequencies {
+        use super::*;
+
+        #[test]
+        fn single_char() {
+            let s = "aaaaa";
+            let frequencies = char_frequencies(s);
+            assert_eq!(&5, frequencies.get(&'a').unwrap());
+        }
+
+        #[test]
+        fn sorted_str_multi_char_different_frequencies() {
+            let s = "aaabbc";
+            let frequencies = char_frequencies(s);
+            assert_eq!(&3, frequencies.get(&'a').unwrap());
+            assert_eq!(&2, frequencies.get(&'b').unwrap());
+            assert_eq!(&1, frequencies.get(&'c').unwrap());
+        }
+
+        #[test]
+        fn unsorted_str_multi_char_different_frequencies() {
+            let s = "abbac";
+            let frequencies = char_frequencies(s);
+            assert_eq!(&3, frequencies.get(&'a').unwrap());
+            assert_eq!(&2, frequencies.get(&'b').unwrap());
+            assert_eq!(&1, frequencies.get(&'c').unwrap());
+        }
+
+        #[test]
+        fn unsorted_str_multi_char_same_frequency() {
+            let s = "acbccbbaa";
+            let frequencies = char_frequencies(s);
+            assert_eq!(&3, frequencies.get(&'a').unwrap());
+            assert_eq!(&3, frequencies.get(&'b').unwrap());
+            assert_eq!(&3, frequencies.get(&'c').unwrap());
+        }
+
+        #[test]
+        fn empty() {
+            let s = "";
+            let frequencies = char_frequencies(s);
+            assert!(frequencies.is_empty());
         }
     }
 }
