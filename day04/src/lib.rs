@@ -84,7 +84,7 @@ mod tests {
             let room = Room::from_str(room_str).unwrap();
             assert_eq!("aaaaabbbzyx".to_owned(), room.name);
             assert_eq!(123, room.sector_id);
-            assert_eq!("abxyz".to_owned(), room.name);
+            assert_eq!("abxyz".to_owned(), room.checksum);
         }
 
         #[test]
@@ -93,7 +93,7 @@ mod tests {
             let room = Room::from_str(room_str).unwrap();
             assert_eq!("abcdefgh".to_owned(), room.name);
             assert_eq!(987, room.sector_id);
-            assert_eq!("abcde".to_owned(), room.name);
+            assert_eq!("abcde".to_owned(), room.checksum);
         }
 
         #[test]
@@ -102,7 +102,7 @@ mod tests {
             let room = Room::from_str(room_str).unwrap();
             assert_eq!("notarealroom".to_owned(), room.name);
             assert_eq!(404, room.sector_id);
-            assert_eq!("oarel".to_owned(), room.name);
+            assert_eq!("oarel".to_owned(), room.checksum);
         }
 
         #[test]
@@ -111,7 +111,7 @@ mod tests {
             let room = Room::from_str(room_str).unwrap();
             assert_eq!("totallyrealroom".to_owned(), room.name);
             assert_eq!(200, room.sector_id);
-            assert_eq!("decoy".to_owned(), room.name);
+            assert_eq!("decoy".to_owned(), room.checksum);
         }
     }
 
