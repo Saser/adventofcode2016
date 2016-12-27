@@ -33,7 +33,19 @@ impl FromStr for Room {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Err("herp".to_owned())
+        lazy_static! {
+            static ref RE: Regex = Regex::new(r"^(?P<name>[a-z]+(-[a-z]+)*?)-(?P<sid_chk>\d+\[[a-z]{5}\])$").unwrap();
+        }
+
+        let captures = RE.captures(s).ok_or(format!("Room::from_str: invalid room string: {}", s))?;
+
+        let name = remove_dashes(captures.name("name").unwrap());
+        let (sector_id, checksum) = sector_id_and_checksum(captures.name("sid_chk").unwrap())?;
+        Ok(Room {
+            name: name,
+            sector_id: sector_id,
+            checksum: checksum,
+        })
     }
 }
 
