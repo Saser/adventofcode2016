@@ -25,6 +25,20 @@ fn parse_input_part1(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
     base::utils::any_err(lines.map(parse_line))
 }
 
+fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
+    let line = line.trim();
+    let strs = line.split_whitespace().collect::<Vec<&str>>();
+    let a_str = strs[0];
+    let b_str = strs[1];
+    let c_str = strs[2];
+
+    let a = u32::from_str(a_str).unwrap();
+    let b = u32::from_str(b_str).unwrap();
+    let c = u32::from_str(c_str).unwrap();
+
+    Ok((a, b, c))
+}
+
 fn parse_input_part2(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
     unimplemented!()
 }
@@ -43,20 +57,6 @@ fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>>
         }
     }
     transposed
-}
-
-fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
-    let line = line.trim();
-    let strs = line.split_whitespace().collect::<Vec<&str>>();
-    let a_str = strs[0];
-    let b_str = strs[1];
-    let c_str = strs[2];
-
-    let a = u32::from_str(a_str).unwrap();
-    let b = u32::from_str(b_str).unwrap();
-    let c = u32::from_str(c_str).unwrap();
-
-    Ok((a, b, c))
 }
 
 fn count_triangles(triangles: &[(u32, u32, u32)]) -> u32 {
