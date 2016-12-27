@@ -269,7 +269,7 @@ mod tests {
 
         #[test]
         fn unsorted_str_multi_char_different_frequencies() {
-            let s = "abbac";
+            let s = "abbaca";
             let frequencies = char_frequencies(s);
             assert_eq!(&3, frequencies.get(&'a').unwrap());
             assert_eq!(&2, frequencies.get(&'b').unwrap());
