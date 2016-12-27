@@ -19,7 +19,17 @@ struct Day04;
 
 impl ProblemSolver for Day04 {
     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
-        unimplemented!()
+        let rooms = input.lines().map(Room::from_str);
+        let rooms = base::utils::any_err(rooms)?;
+        match part {
+            Part::One => {
+                Ok(rooms.iter()
+                    .filter(|room| room.is_real())
+                    .fold(0, |acc, ref room| acc + room.sector_id)
+                    .to_string())
+            }
+            Part::Two => Err("Day04::solve: not implemented yet".to_owned()),
+        }
     }
 }
 
@@ -52,7 +62,8 @@ impl FromStr for Room {
 
 impl Room {
     fn is_real(&self) -> bool {
-        unimplemented!()
+        let calculated_checksum = calculate_checksum(&self.name);
+        calculated_checksum == self.checksum
     }
 }
 
@@ -66,9 +77,7 @@ fn calculate_checksum(s: &str) -> String {
     }
 
     let mut frequencies = char_frequencies(s).into_iter().collect::<Vec<(char, u32)>>();
-    println!("frequencies before sorting: {:?}", frequencies);
     frequencies.sort_by(compare_frequencies);
-    println!("frequencies after sorting: {:?}", frequencies);
 
     frequencies.iter().take(5).map(|&(c, _)| c).collect::<String>()
 }
