@@ -38,7 +38,7 @@ impl Room {
 }
 
 fn remove_dashes(s: &str) -> String {
-    unimplemented!()
+    s.split('-').collect::<String>()
 }
 
 fn sector_id_and_checksum(s: &str) -> Result<(u32, String), String> {
