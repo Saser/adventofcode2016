@@ -29,6 +29,22 @@ fn parse_input_part2(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
     unimplemented!()
 }
 
+fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>>
+    where T: Copy
+{
+    let rows = matrix.len();
+    let cols = matrix[0].len();
+
+    let mut transposed: Vec<Vec<T>> = Vec::with_capacity(cols);
+    for col in 0..cols {
+        transposed.push(Vec::with_capacity(rows));
+        for row in 0..rows {
+            transposed[col].push(matrix[row][col]);
+        }
+    }
+    transposed
+}
+
 fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
     let line = line.trim();
     let strs = line.split_whitespace().collect::<Vec<&str>>();
@@ -120,5 +136,61 @@ mod tests {
         let expected = vec![(5, 10, 15), (1, 2, 3)];
         assert_eq!(expected, parse_input_part2(input1).unwrap());
         assert_eq!(expected, parse_input_part2(input2).unwrap());
+    }
+
+    #[test]
+    fn test_transpose_1x1() {
+        let matrix = vec![vec![1]];
+        let expected = vec![vec![1]];
+        assert_eq!(expected, transpose(matrix));
+    }
+
+    #[test]
+    fn test_transpose_1x2() {
+        let matrix = vec![vec![1, 2]];
+        let expected = vec![vec![1], vec![2]];
+        assert_eq!(expected, transpose(matrix));
+    }
+
+    #[test]
+    fn test_transpose_2x1() {
+        let matrix = vec![vec![1], vec![2]];
+        let expected = vec![vec![1, 2]];
+        assert_eq!(expected, transpose(matrix));
+    }
+
+    #[test]
+    fn test_transpose_2x2() {
+        let matrix = vec![vec![1, 2], vec![3, 4]];
+        let expected = vec![vec![1, 3], vec![2, 4]];
+        assert_eq!(expected, transpose(matrix));
+    }
+
+    #[test]
+    fn test_transpose_double_1x1() {
+        let matrix = vec![vec![1]];
+        let expected = vec![vec![1]];
+        assert_eq!(expected, transpose(transpose(matrix)));
+    }
+
+    #[test]
+    fn test_transpose_double_1x2() {
+        let matrix = vec![vec![1, 2]];
+        let expected = vec![vec![1, 2]];
+        assert_eq!(expected, transpose(transpose(matrix)));
+    }
+
+    #[test]
+    fn test_transpose_double_2x1() {
+        let matrix = vec![vec![1], vec![2]];
+        let expected = vec![vec![1], vec![2]];
+        assert_eq!(expected, transpose(transpose(matrix)));
+    }
+
+    #[test]
+    fn test_transpose_double_2x2() {
+        let matrix = vec![vec![1, 2], vec![3, 4]];
+        let expected = vec![vec![1, 2], vec![3, 4]];
+        assert_eq!(expected, transpose(transpose(matrix)));
     }
 }
