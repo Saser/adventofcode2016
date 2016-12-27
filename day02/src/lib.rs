@@ -36,7 +36,7 @@ fn parse_input(input: &str) -> Result<Vec<Vec<Direction>>, String> {
     if input.len() == 0 {
         return Err("parse_input: empty string".to_owned());
     }
-    let str_lines = input.split_terminator('\n');
+    let str_lines = input.lines();
     let mut parsed = Vec::new();
     for str_line in str_lines {
         let directions = base::utils::any_err(str_line.chars()

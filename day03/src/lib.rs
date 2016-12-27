@@ -23,7 +23,7 @@ impl ProblemSolver for Day03 {
 }
 
 fn parse_input(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
-    let lines = input.split_terminator('\n');
+    let lines = input.lines();
     base::utils::any_err(lines.map(parse_line))
 }
 
