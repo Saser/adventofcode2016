@@ -55,6 +55,10 @@ impl Room {
     }
 }
 
+fn calculate_checksum(s: &str) -> String {
+    unimplemented!()
+}
+
 fn remove_dashes(s: &str) -> String {
     s.split('-').collect::<String>()
 }
@@ -307,6 +311,46 @@ mod tests {
             let s = "";
             let frequencies = char_frequencies(s);
             assert!(frequencies.is_empty());
+        }
+    }
+
+    mod test_calculate_checksum {
+        use super::*;
+
+        #[test]
+        fn sorted_str_same_frequencies() {
+            let s = "aabbccddee";
+            assert_eq!("abcde".to_owned(), calculate_checksum(s));
+        }
+
+        #[test]
+        fn unsorted_str_same_frequencies() {
+            let s = "ecbcadbade";
+            assert_eq!("abcde".to_owned(), calculate_checksum(s));
+        }
+
+        #[test]
+        fn sorted_str_different_frequencies() {
+            let s = "abbcccddddeeeee";
+            assert_eq!("edcba".to_owned(), calculate_checksum(s));
+        }
+
+        #[test]
+        fn unsorted_str_different_frequencies() {
+            let s = "bcecadebdcdedee";
+            assert_eq!("edcba".to_owned(), calculate_checksum(s));
+        }
+
+        #[test]
+        fn sorted_str_tiebreaker() {
+            let s = "aaaabbbccddee";
+            assert_eq!("abcde".to_owned(), calculate_checksum(s));
+        }
+
+        #[test]
+        fn unsorted_str_tiebreaker() {
+            let s = "abaecdabbdace";
+            assert_eq!("abcde".to_owned(), calculate_checksum(s));
         }
     }
 }
