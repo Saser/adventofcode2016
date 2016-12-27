@@ -7,6 +7,7 @@ use base::ProblemSolver;
 
 extern crate day01;
 extern crate day02;
+extern crate day03;
 
 use std::time::Instant;
 
@@ -60,6 +61,7 @@ fn get_solver(day: u32) -> Result<Box<ProblemSolver>, String> {
     match day {
         1 => Ok(day01::get_solver()),
         2 => Ok(day02::get_solver()),
+        3 => Ok(day03::get_solver()),
         _ => Err("day either invalid or not implemented yet".to_string()),
     }
 }
