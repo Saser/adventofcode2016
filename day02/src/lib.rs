@@ -129,7 +129,7 @@ impl Keypad for StupidKeypad {
     }
 
     fn initial_position() -> Position {
-        Position(0, 0)
+        Position(-2, 0)
     }
 }
 
