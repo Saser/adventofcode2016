@@ -14,7 +14,11 @@ struct Day03;
 
 impl ProblemSolver for Day03 {
     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
-        unimplemented!()
+        let triangles = parse_input(input)?;
+        match part {
+            Part::One => Ok(count_triangles(&triangles).to_string()),
+            Part::Two => Err("not yet implemented: part 2".to_owned()),
+        }
     }
 }
 
@@ -38,6 +42,21 @@ fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
     let c = u32::from_str(c_str).unwrap();
 
     Ok((a, b, c))
+}
+
+fn count_triangles(triangles: &[(u32, u32, u32)]) -> u32 {
+    let mut count = 0;
+    for triangle_tuple in triangles {
+        let (a, b, c) = *triangle_tuple;
+        if is_triangle(a, b, c) {
+            count += 1;
+        }
+    }
+    count
+}
+
+fn is_triangle(a: u32, b: u32, c: u32) -> bool {
+    a + b > c && a + c > b && b + c > a
 }
 
 #[cfg(test)]
