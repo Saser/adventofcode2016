@@ -1,9 +1,7 @@
 extern crate base;
 use base::{Part, ProblemSolver};
 
-extern crate regex;
-use regex::Regex;
-
+use std::error::Error;
 use std::str::FromStr;
 
 pub fn get_solver() -> Box<ProblemSolver> {
@@ -33,16 +31,13 @@ fn parse_input_part2(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
 
 fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
     let line = line.trim();
-    let re = Regex::new(r"^\s*(?P<a>\d+)\s+(?P<b>\d+)\s+(?P<c>\d+)$").unwrap();
-    let captures = re.captures(line).ok_or(format!("line contains invalid sides: {}", line))?;
+    let strs = line.split_whitespace().collect::<Vec<&str>>();
+    let a_str = strs[0];
+    let b_str = strs[1];
+    let c_str = strs[2];
 
-    let a_str = captures.name("a").unwrap();
     let a = u32::from_str(a_str).unwrap();
-
-    let b_str = captures.name("b").unwrap();
     let b = u32::from_str(b_str).unwrap();
-
-    let c_str = captures.name("c").unwrap();
     let c = u32::from_str(c_str).unwrap();
 
     Ok((a, b, c))
