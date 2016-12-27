@@ -63,7 +63,12 @@ fn sector_id_and_checksum(s: &str) -> Result<(u32, String), String> {
 }
 
 fn char_frequencies(s: &str) -> HashMap<char, u32> {
-    unimplemented!()
+    let mut frequencies = HashMap::new();
+    for c in s.chars() {
+        let char_frequency = frequencies.entry(c).or_insert(0);
+        *char_frequency += 1;
+    }
+    frequencies
 }
 
 #[cfg(test)]
