@@ -20,3 +20,14 @@ mod part1 {
         assert_eq!(get_answer(input, Part::One), 0);
     }
 }
+
+mod part2 {
+    use super::*;
+
+    #[test]
+    fn example1() {
+        let input = "101 301 501\n102 302 502\n103 303 503\n201 401 601\n202 402 602\n203 403 \
+                     603\n";
+        assert_eq!(get_answer(input, Part::Two), 6);
+    }
+}

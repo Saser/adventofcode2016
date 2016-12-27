@@ -40,7 +40,28 @@ fn parse_line(line: &str) -> Result<(u32, u32, u32), String> {
 }
 
 fn parse_input_part2(input: &str) -> Result<Vec<(u32, u32, u32)>, String> {
-    unimplemented!()
+    let lines = input.lines().collect::<Vec<&str>>();
+    let mut matrix = Vec::with_capacity(lines.len());
+    for line in &lines {
+        let elements = line.split_whitespace().collect::<Vec<&str>>();
+        let mut row = Vec::with_capacity(elements.len());
+        for element in &elements {
+            let number = u32::from_str(element).map_err(|e| e.description().to_owned())?;
+            row.push(number);
+        }
+        matrix.push(row);
+    }
+
+    let transposed = transpose(matrix.clone());
+    let rows = transposed.len();
+    let cols = transposed[0].len();
+    let mut all_triangles = Vec::with_capacity((cols / 3) * rows);
+    for row in &transposed {
+        for chunk in row.chunks(3) {
+            all_triangles.push((chunk[0], chunk[1], chunk[2]));
+        }
+    }
+    Ok(all_triangles)
 }
 
 fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>>
