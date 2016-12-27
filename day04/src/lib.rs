@@ -36,6 +36,10 @@ impl Room {
     }
 }
 
+fn remove_dashes(s: &str) -> String {
+    unimplemented!()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -114,5 +118,45 @@ mod tests {
             checksum: "decoy".to_owned(),
         };
         assert!(!room.is_real());
+    }
+
+    #[test]
+    fn test_remove_dashes() {
+        assert_eq!("abc".to_owned(), remove_dashes("a-b-c"));
+    }
+
+    #[test]
+    fn test_remove_dashes_leading_dash() {
+        assert_eq!("abc".to_owned(), remove_dashes("-a-b-c"));
+    }
+
+    #[test]
+    fn test_remove_dashes_several_leading_dashes() {
+        assert_eq!("abc".to_owned(), remove_dashes("----a-b-c"));
+    }
+
+    #[test]
+    fn test_remove_dashes_trailing_dash() {
+        assert_eq!("abc".to_owned(), remove_dashes("a-b-c-"));
+    }
+
+    #[test]
+    fn test_remove_dashes_several_trailing_dashes() {
+        assert_eq!("abc".to_owned(), remove_dashes("a-b-c----"));
+    }
+
+    #[test]
+    fn test_remove_dashes_several_inner_dashes() {
+        assert_eq!("abc".to_owned(), remove_dashes("a---b---c"));
+    }
+
+    #[test]
+    fn test_remove_dashes_empty() {
+        assert_eq!("".to_owned(), remove_dashes(""));
+    }
+
+    #[test]
+    fn test_remove_dashes_only_dashes() {
+        assert_eq!("".to_owned(), remove_dashes("----"));
     }
 }
