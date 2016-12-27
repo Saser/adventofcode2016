@@ -1,9 +1,7 @@
 extern crate base;
-use base::{Part, ProblemSolver};
+use base::Part;
 
 extern crate day02;
-
-use std::str::FromStr;
 
 fn get_answer(input: &str, part: Part) -> String {
     let solver = day02::get_solver();
