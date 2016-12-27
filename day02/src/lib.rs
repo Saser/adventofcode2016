@@ -56,6 +56,10 @@ impl<K: Keypad> Finger<K> {
             None => self.current_position,
         };
     }
+
+    fn press(&self) -> String {
+        self.keypad.key(self.current_position).unwrap()
+    }
 }
 
 trait Keypad {
