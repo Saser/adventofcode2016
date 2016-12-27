@@ -11,14 +11,24 @@ struct Solver;
 
 impl ProblemSolver for Solver {
     fn solve(&self, input: &str, part: Part) -> Result<String, String> {
-        unimplemented!()
+        let all_directions = parse_input(input)?;
+        match part {
+            Part::One => Ok(enter_code(Finger::new(StandardKeypad), all_directions)),
+            Part::Two => Ok(enter_code(Finger::new(StupidKeypad), all_directions)),
+        }
     }
 }
 
-fn enter_code<K>(finger: Finger<K>, all_directions: Vec<Vec<Direction>>) -> String
+fn enter_code<K>(mut finger: Finger<K>, all_directions: Vec<Vec<Direction>>) -> String
     where K: Keypad
 {
-    let code = String::new();
+    let mut code = String::new();
+    for directions in &all_directions {
+        for direction in directions {
+            finger.walk(*direction);
+        }
+        code += &finger.press();
+    }
     code
 }
 
